@@ -1,0 +1,5 @@
+simulation: atupa-auth-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/atupa.js

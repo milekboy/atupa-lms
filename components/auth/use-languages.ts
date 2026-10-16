@@ -1,0 +1,4 @@
+"use client";
+import {useEffect,useState} from "react";
+export type Language={code:string;name:string};
+export function useLanguages(enabled=true){const [languages,setLanguages]=useState<Language[]>([]);const[error,setError]=useState("");const[version,setVersion]=useState(0);useEffect(()=>{if(!enabled)return;const controller=new AbortController();fetch("/api/public/languages",{signal:controller.signal}).then(async r=>{const v=await r.json();if(!r.ok)throw new Error(v.message??"Languages could not be loaded.");if(!Array.isArray(v.data)||!v.data.length||!v.data.every((l:Language)=>typeof l.code==="string"&&typeof l.name==="string"))throw new Error("No active languages are available. Please try again later.");setLanguages(v.data);setError("");}).catch(e=>{if(!controller.signal.aborted)setError(e instanceof Error?e.message:"Languages could not be loaded.");});return()=>controller.abort();},[version,enabled]);return {languages,error,retry:()=>setVersion(v=>v+1)};}

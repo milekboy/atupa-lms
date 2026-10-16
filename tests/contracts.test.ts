@@ -1,0 +1,11 @@
+import {test} from "node:test";
+import assert from "node:assert/strict";
+import { normalizeSession,normalizeData,normalizeError,sanitize,safeUser } from "../lib/api/contracts";
+import { canAccess,safeReturnTo } from "../lib/auth/roles";
+const session={user:{id:"test-learner",role:"learner",firstName:"Ada",lastName:"Obi",passwordHash:"secret"},accessToken:"test-access",refreshToken:"test-refresh",expiresIn:900};
+test("ordinary and nested school sessions normalize without leaking profile secrets",()=>{for(const data of [session,{school:{id:"school"},session}]){const result=normalizeSession({success:true,data},1000);assert.equal(result.accessExpiresAt,901000);assert.equal(result.user.role,"learner");assert.equal("passwordHash" in result.user,false);}});
+test("invalid auth and unknown roles fail closed",()=>{assert.throws(()=>normalizeSession({success:true,data:{...session,refreshToken:""}}));assert.throws(()=>safeUser({id:"1",role:"owner"}));});
+test("success list envelopes and arrays retain their shape",()=>{assert.deepEqual(normalizeData({success:true,data:{items:[],page:1,limit:20,total:0}}),{items:[],page:1,limit:20,total:0});assert.deepEqual(normalizeData([1,2]),[1,2]);});
+test("validation and nested token sanitization",()=>{assert.deepEqual(normalizeError({message:"Invalid",errors:["email",23]},422).errors,["email"]);assert.deepEqual(sanitize({accessToken:"hidden",nested:{refreshToken:"hidden",name:"Ada"}}),{nested:{name:"Ada"}});});
+test("return paths reject external redirects, traversal and lookalike prefixes",()=>{for(const path of ["https://evil.test","//evil.test","/dashboardish","/dashboard/../../evil","/dashboard\\evil"])assert.equal(safeReturnTo(path),"/dashboard");assert.equal(safeReturnTo("/dashboard/courses?page=2"),"/dashboard/courses?page=2");});
+test("privileged navigation and learner areas respect roles",()=>{assert.equal(canAccess("/dashboard/users","learner"),false);assert.equal(canAccess("/dashboard/users","super_admin"),true);assert.equal(canAccess("/dashboard/children","teacher"),false);assert.equal(canAccess("/dashboard/content","content_creator"),true);assert.equal(canAccess("/dashboard/learn/1","parent"),false);});

@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     agentFeedback: true,
+    // Avoid a diagnostics-log/rebuild loop in this OneDrive development checkout.
+    // Application/session protection and production behavior are unchanged.
+    mcpServer: false,
   },
   cacheComponents: true,
   partialPrefetching: true,

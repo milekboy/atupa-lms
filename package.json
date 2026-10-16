@@ -6,12 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts",
+    "test:session-http": "node --test tests/session-http.mjs",
+    "simulate:auth": "postman simulation run postman/simulations/auth.sim.yaml --port 4900 --no-history --output ndjson",
+    "dev:auth-test": "node scripts/start-auth-test.mjs",
+    "test:account-http": "node --test tests/account-http.mjs"
   },
   "dependencies": {
+    "motion": "^14.3.0",
     "next": "16.4.2",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-icons": "^5.7.0",
+    "react-toastify": "^11.1.0",
+    "redis": "^6.3.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
@@ -21,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

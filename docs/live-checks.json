@@ -1,0 +1,394 @@
+{
+  "baseUrl": "https://atupa-lms-backend.onrender.com/api/v1",
+  "method": "Anonymous read-only GET; no collection scripts executed",
+  "firstAttempt": "Health timed out after 40 seconds; other three routes returned 200. This report is the explicit verification rerun.",
+  "records": [
+    {
+      "route": "/health",
+      "startedUtc": "2026-10-16T21:20:54.5744362+00:00",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Success envelope",
+          "passed": true
+        },
+        {
+          "name": "Healthy service",
+          "passed": true
+        }
+      ],
+      "response": {
+        "success": true,
+        "message": "Success",
+        "data": {
+          "status": "ok",
+          "service": "atupa-lms",
+          "timestamp": "2026-10-16T21:20:56.374Z"
+        }
+      }
+    },
+    {
+      "route": "/languages",
+      "startedUtc": "2026-10-16T21:20:56.0506755+00:00",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Success envelope",
+          "passed": true
+        },
+        {
+          "name": "Active language yoruba",
+          "passed": true
+        },
+        {
+          "name": "Active language igbo",
+          "passed": true
+        },
+        {
+          "name": "Active language hausa",
+          "passed": true
+        }
+      ],
+      "response": {
+        "success": true,
+        "message": "Success",
+        "data": [
+          {
+            "id": "6ad21b1e15c86abc8ad65dc4",
+            "code": "edo54337533",
+            "name": "Edo",
+            "nativeName": "Ẹdo",
+            "isActive": true,
+            "order": 0,
+            "createdAt": "2026-10-16T12:39:58.588Z",
+            "updatedAt": "2026-10-16T12:39:58.588Z"
+          },
+          {
+            "id": "6ad21d5515c86abc8ad65e09",
+            "code": "edo54897157",
+            "name": "Edo",
+            "nativeName": "Ẹdo",
+            "isActive": true,
+            "order": 0,
+            "createdAt": "2026-10-16T12:49:25.771Z",
+            "updatedAt": "2026-10-16T12:49:25.771Z"
+          },
+          {
+            "id": "6ad20e17ef26c6008e65f481",
+            "code": "yoruba",
+            "name": "Yoruba",
+            "nativeName": "Èdè Yorùbá",
+            "isActive": true,
+            "order": 1,
+            "createdAt": "2026-10-16T11:44:23.287Z",
+            "updatedAt": "2026-10-16T12:49:27.532Z"
+          },
+          {
+            "id": "6ad20e17ef26c6008e65f482",
+            "code": "igbo",
+            "name": "Igbo",
+            "nativeName": "Asụsụ Igbo",
+            "isActive": true,
+            "order": 2,
+            "createdAt": "2026-10-16T11:44:23.605Z",
+            "updatedAt": "2026-10-16T11:44:23.605Z"
+          },
+          {
+            "id": "6ad20e17ef26c6008e65f483",
+            "code": "hausa",
+            "name": "Hausa",
+            "nativeName": "Harshen Hausa",
+            "isActive": true,
+            "order": 3,
+            "createdAt": "2026-10-16T11:44:23.921Z",
+            "updatedAt": "2026-10-16T11:44:23.921Z"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/courses?page=1&limit=10",
+      "startedUtc": "2026-10-16T21:20:57.2504074+00:00",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Success envelope",
+          "passed": true
+        },
+        {
+          "name": "Pagination fields",
+          "passed": true
+        },
+        {
+          "name": "Published pathway yoruba/beginner",
+          "passed": true
+        },
+        {
+          "name": "Published pathway yoruba/intermediate",
+          "passed": true
+        },
+        {
+          "name": "Published pathway yoruba/advanced",
+          "passed": true
+        },
+        {
+          "name": "Published pathway igbo/beginner",
+          "passed": true
+        },
+        {
+          "name": "Published pathway igbo/intermediate",
+          "passed": true
+        },
+        {
+          "name": "Published pathway igbo/advanced",
+          "passed": true
+        },
+        {
+          "name": "Published pathway hausa/beginner",
+          "passed": true
+        },
+        {
+          "name": "Published pathway hausa/intermediate",
+          "passed": true
+        },
+        {
+          "name": "Published pathway hausa/advanced",
+          "passed": true
+        }
+      ],
+      "response": {
+        "success": true,
+        "message": "Success",
+        "data": {
+          "items": [
+            {
+              "id": "6ad20e4aef26c6008e65f4d6",
+              "languageCode": "hausa",
+              "level": "advanced",
+              "title": "Hausa Advanced",
+              "description": "Learn Hausa at advanced level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": true,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:45:20.103Z",
+              "createdAt": "2026-10-16T11:45:14.711Z",
+              "updatedAt": "2026-10-16T11:45:20.103Z"
+            },
+            {
+              "id": "6ad20e3eef26c6008e65f4c6",
+              "languageCode": "hausa",
+              "level": "beginner",
+              "title": "Hausa Beginner",
+              "description": "Learn Hausa at beginner level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:45:08.387Z",
+              "createdAt": "2026-10-16T11:45:02.789Z",
+              "updatedAt": "2026-10-16T11:45:08.387Z"
+            },
+            {
+              "id": "6ad20e44ef26c6008e65f4ce",
+              "languageCode": "hausa",
+              "level": "intermediate",
+              "title": "Hausa Intermediate",
+              "description": "Learn Hausa at intermediate level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:45:14.235Z",
+              "createdAt": "2026-10-16T11:45:08.864Z",
+              "updatedAt": "2026-10-16T11:45:14.235Z"
+            },
+            {
+              "id": "6ad20e37ef26c6008e65f4b8",
+              "languageCode": "igbo",
+              "level": "advanced",
+              "title": "Igbo Advanced",
+              "description": "Learn Igbo at advanced level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": true,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:45:01.186Z",
+              "createdAt": "2026-10-16T11:44:55.799Z",
+              "updatedAt": "2026-10-16T11:45:01.186Z"
+            },
+            {
+              "id": "6ad20e2cef26c6008e65f4a8",
+              "languageCode": "igbo",
+              "level": "beginner",
+              "title": "Igbo Beginner",
+              "description": "Learn Igbo at beginner level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:49.443Z",
+              "createdAt": "2026-10-16T11:44:44.06Z",
+              "updatedAt": "2026-10-16T11:44:49.443Z"
+            },
+            {
+              "id": "6ad20e31ef26c6008e65f4b0",
+              "languageCode": "igbo",
+              "level": "intermediate",
+              "title": "Igbo Intermediate",
+              "description": "Learn Igbo at intermediate level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:55.321Z",
+              "createdAt": "2026-10-16T11:44:49.916Z",
+              "updatedAt": "2026-10-16T11:44:55.321Z"
+            },
+            {
+              "id": "6ad20e25ef26c6008e65f49a",
+              "languageCode": "yoruba",
+              "level": "advanced",
+              "title": "Yoruba Advanced",
+              "description": "Learn Yoruba at advanced level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": true,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:42.468Z",
+              "createdAt": "2026-10-16T11:44:37.09Z",
+              "updatedAt": "2026-10-16T11:44:42.468Z"
+            },
+            {
+              "id": "6ad20e19ef26c6008e65f48a",
+              "languageCode": "yoruba",
+              "level": "beginner",
+              "title": "Yoruba Beginner",
+              "description": "Learn Yoruba at beginner level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:30.764Z",
+              "createdAt": "2026-10-16T11:44:25.36Z",
+              "updatedAt": "2026-10-16T11:44:30.764Z"
+            },
+            {
+              "id": "6ad20e1fef26c6008e65f492",
+              "languageCode": "yoruba",
+              "level": "intermediate",
+              "title": "Yoruba Intermediate",
+              "description": "Learn Yoruba at intermediate level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:36.616Z",
+              "createdAt": "2026-10-16T11:44:31.24Z",
+              "updatedAt": "2026-10-16T11:44:36.616Z"
+            }
+          ],
+          "page": 1,
+          "limit": 10,
+          "total": 9
+        }
+      }
+    },
+    {
+      "route": "/courses?languageCode=yoruba&level=beginner",
+      "startedUtc": "2026-10-16T21:20:58.4441549+00:00",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Success envelope",
+          "passed": true
+        },
+        {
+          "name": "Filter returns only Yoruba beginner",
+          "passed": true
+        }
+      ],
+      "response": {
+        "success": true,
+        "message": "Success",
+        "data": {
+          "items": [
+            {
+              "id": "6ad20e19ef26c6008e65f48a",
+              "languageCode": "yoruba",
+              "level": "beginner",
+              "title": "Yoruba Beginner",
+              "description": "Learn Yoruba at beginner level through lessons, games and quizzes.",
+              "courseType": "language",
+              "ageGroup": "all",
+              "durationMinutes": 120,
+              "isPremium": false,
+              "tags": [],
+              "status": "published",
+              "createdByUserId": "system-seed",
+              "schoolId": null,
+              "publishedAt": "2026-10-16T11:44:30.764Z",
+              "createdAt": "2026-10-16T11:44:25.36Z",
+              "updatedAt": "2026-10-16T11:44:30.764Z"
+            }
+          ],
+          "page": 1,
+          "limit": 20,
+          "total": 1
+        }
+      }
+    }
+  ]
+}

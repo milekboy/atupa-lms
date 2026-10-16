@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## Session foundation (Step 3)
+
+See [session setup and test instructions](docs/step-03-review.md). Configure the server-only variables in `.env.example`; production requires Redis and APP_ORIGIN. Use `/login` for the session checkpoint and `/dashboard` to verify route protection. Registration, recovery and profile workflows are now available; the dashboard shell follows in Step 5.
+
+
+## Account workflows (Step 4)
+
+See [review routes, test commands and outstanding email verification](docs/step-04-review.md). Registration is available at `/register` and `/register/school`, recovery at `/forgot-password`, and protected profile/security at `/dashboard/profile`. The local Next.js MCP diagnostics endpoint is disabled to avoid the observed development log/recompilation loop.
