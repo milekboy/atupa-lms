@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSession, deleteSession, readSession } from "@/lib/auth/store";
+import { createSession, readSession } from "@/lib/auth/store";
 import { sessionCookie } from "@/lib/auth/session";
 import { safeReturnTo } from "@/lib/auth/roles";
 import { ApiError, normalizeError, normalizeSession, safeUser } from "@/lib/api/contracts";
@@ -17,20 +17,21 @@ export async function POST(request:NextRequest,context:Context) {
       if(!body || typeof body.email!=="string" || typeof body.password!=="string" || body.email.length>320 || body.password.length>1024 || !body.email.trim() || !body.password) throw new ApiError(400,"Email and password are required.");
       const response=await upstream("/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:body.email.trim(),password:body.password})});
       const value=await responseJson(response); if(!response.ok) throw normalizeError(value,response.status);
-      const session=normalizeSession(value); const nextId=await createSession(session); if(id) await deleteSession(id);
+      const session=normalizeSession(value); const nextId=await createSession(session); 
       const result=json({success:true,message:"Logged in",data:{user:session.user}});
       result.cookies.set(sessionCookie,nextId,{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/",maxAge:7*86400}); return result;
     }
     if(action==="logout") {
-      if(id) {const old=await readSession(id);await deleteSession(id); if(old) {try {await upstream("/auth/logout",{method:"POST",headers:{Authorization:`Bearer ${old.accessToken}`}});} catch {/* Local logout must succeed even if the backend is unreachable. */}}}
+      if(id) {const old=await readSession(id); if(old) {try {await upstream("/auth/logout",{method:"POST",headers:{Authorization:`Bearer ${old.accessToken}`}});} catch {/* Local logout must succeed even if the backend is unreachable. */}}}
       return clearCookie(json({success:true,message:"Logged out",data:null}));
     }
     if(action==="refresh") {
       if(!id) throw new ApiError(401,"Please log in again.");
       const old=await readSession(id); if(!old) throw new ApiError(401,"Please log in again.");
       // A still-fresh session needs no rotation; prevents duplicate explicit refreshes across tabs.
-      const session=old.accessExpiresAt>Date.now()+10000?old:await refreshSession(id,old.accessToken);
-      return json({success:true,message:"Session ready",data:{user:session.user}});
+      const session=await refreshSession(id);
+      const result=json({success:true,message:"Session ready",data:{user:session.user}});
+      result.cookies.set(sessionCookie,await createSession(session),{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/",maxAge:Math.max(0,Math.floor((session.expiresAt-Date.now())/1000))});return result;
     }
     throw new ApiError(404,"Unknown authentication action.");
   } catch(error) { return errorResponse(error); }

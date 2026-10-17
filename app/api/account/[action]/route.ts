@@ -3,7 +3,7 @@ import { ApiError, normalizeError, normalizeSession, object, safeUser } from "@/
 import { authenticated, responseJson, upstream } from "@/lib/api/server";
 import { checkOrigin, clearCookie, errorResponse, json } from "@/lib/api/http";
 import { accountPayload } from "@/lib/auth/account-contracts";
-import { createSession, deleteSession } from "@/lib/auth/store";
+import { createSession } from "@/lib/auth/store";
 import { sessionCookie } from "@/lib/auth/session";
 type Context={params:Promise<{action:string}>};
 function profile(value:unknown){const u=object(value);return {...safeUser(u),preferredLanguageCode:typeof u.preferredLanguageCode==="string"?u.preferredLanguageCode:"",phone:typeof u.phone==="string"?u.phone:""};}
@@ -26,14 +26,14 @@ async function mutate(request:NextRequest,context:Context){
     const response=protectedAction?await authenticated(id!,paths[action],init):await upstream(paths[action],init);
     const value=response.status===204?{success:true,data:null}:await responseJson(response);if(!response.ok)throw normalizeError(value,response.status);
     if(["register","register-school","reset-password"].includes(action)){
-      const session=normalizeSession(value);const nextId=await createSession(session);if(id)await deleteSession(id);
+      const session=normalizeSession(value);const nextId=await createSession(session);
       const result=json({success:true,message:action==="reset-password"?"Password updated":"Account created",data:{user:session.user}},response.status);
       result.cookies.set(sessionCookie,nextId,{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/",maxAge:7*86400});return result;
     }
     if(action==="forgot-password")return json({success:true,message:"If that email is registered, a password link has been sent.",data:null});
     if(action==="profile")return json({success:true,message:"Profile saved",data:profile(object(value).data)});
     // Re-authenticate this device as well after a credential change/deletion.
-    if(id)await deleteSession(id);return clearCookie(json({success:true,message:action==="delete-account"?"Account deleted":"Password changed. Please sign in again.",data:null}));
+    return clearCookie(json({success:true,message:action==="delete-account"?"Account deleted":"Password changed. Please sign in again.",data:null}));
   }catch(error){return errorResponse(error);}
 }
 export const POST=mutate;export const PATCH=mutate;export const DELETE=mutate;

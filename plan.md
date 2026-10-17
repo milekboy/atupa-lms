@@ -15,7 +15,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 - Product sources: `C:/Users/User/Downloads/ATUPA LMS — PRD.pdf`, especially section 34, and `C:/Users/User/Downloads/ATUPA_LMS_User_Stories.docx`, especially P1 stories US-01 through US-16, US-18, and US-19.
 - API source: `C:/Users/User/Downloads/ATUPA LMS API.postman_collection.json`, containing 191 saved request examples across 20 folders. Examples and scripts are evidence of documented behavior, not a live verification report.
 - Visual references: the supplied ATUPA website screenshot and `C:/Users/User/OneDrive/Desktop/Bible plus v2/bibleplus-admin-v2/plan.md` plus its dashboard shell. BiblePlus endpoints, role names, blue colors, and domain features do not apply to ATUPA.
-- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production Redis and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
+- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production cookie-secret configuration and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
 
 ---
 
@@ -196,7 +196,7 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [x] Step 3 - Build production API transport, sessions, and authorization
 
-**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Production Redis and live staging-account verification remain explicit release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted.
+**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Redis was removed at the user's request on 2026-10-17; encrypted HttpOnly cookies now require SESSION_SECRET. Live backend revocation and staging-account verification remain release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted.
 
 ## Requirements
 
@@ -204,9 +204,9 @@ Frontend routes are proposed organization, not claims that matching backend endp
 - Support success envelopes `{ success, message, data }`, list envelopes containing `{ items, page, limit, total }`, direct arrays, and errors containing `statusCode`, `message`, and optional validation `errors`.
 - Support JSON, multipart upload forwarding, and request timeouts. Do not forward browser-supplied Authorization headers or allow arbitrary proxy destinations.
 - Implement login, logout, refresh, and safe profile retrieval using `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, and `GET /users/me`.
-- Access tokens last 900 seconds in the saved examples. Refresh rotates both tokens; reuse of an old refresh token is documented as revoking sessions. Coordinate concurrent refreshes across requests/tabs through the chosen server-session design, and avoid blindly retrying refresh mutations.
+- Access tokens last 900 seconds in the saved examples. Refresh rotates both tokens; reuse of an old refresh token is documented as revoking sessions. Coordinate refresh and authentication writes across same-origin tabs using browser Web Locks; browsers without Web Locks reauthenticate when renewal is needed, and avoid blindly retrying refresh mutations.
 - Store tokens in HttpOnly cookies or an equivalent protected server session with production Secure settings, appropriate SameSite behavior, expiry, and protection against cross-site mutations.
-- On 401, attempt eligible refresh once and retry safely; otherwise clear the session and redirect with a validated same-origin return path. On 403, keep the session and show permission denied.
+- On access expiry, return a renewal signal before forwarding, renew once under the browser lock and retry the buffered request. Backend 401 responses clear the cookie and require sign-in; do not retry revoked credentials. On 403, keep the session and show permission denied.
 - Use the installed Next.js route-protection convention and server-side checks for dashboard routes. Backend authorization remains authoritative for school, learner, and content scope.
 - Normalize school registration's `data.session` separately from ordinary auth's session response; do not assume identical nesting.
 

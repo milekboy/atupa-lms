@@ -1,4 +1,5 @@
 "use client";
+import {sessionFetch} from "@/lib/auth/session-fetch";
 import { useState,type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { safeReturnTo } from "@/lib/auth/roles";
 export function LoginCheckpoint() {
   const {dark,toggle}=useTheme(); const [showPassword,setShowPassword]=useState(false);
   const router=useRouter(); const [email,setEmail]=useState(""); const [password,setPassword]=useState("");const [pending,setPending]=useState(false);const [error,setError]=useState("");
-  async function submit(event:FormEvent) {event.preventDefault();if(pending)return;setPending(true);setError("");try{const response=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password}),signal:AbortSignal.timeout(30000)});const value=await response.json();if(!response.ok){setError(value.message??"Unable to log in.");return;}setPassword("");router.replace(safeReturnTo(new URLSearchParams(location.search).get("returnTo")));router.refresh();}catch{setError("Unable to connect. Please try again.");}finally{setPending(false);}}
+  async function submit(event:FormEvent) {event.preventDefault();if(pending)return;setPending(true);setError("");try{const response=await sessionFetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password}),signal:AbortSignal.timeout(30000)});const value=await response.json();if(!response.ok){setError(value.message??"Unable to log in.");return;}setPassword("");router.replace(safeReturnTo(new URLSearchParams(location.search).get("returnTo")));router.refresh();}catch{setError("Unable to connect. Please try again.");}finally{setPending(false);}}
   return <main id="main-content" className="login-page">
     <section className="login-shell" aria-label="Sign in to ATUPA LMS">
       <div className="login-form-panel">
@@ -47,5 +48,5 @@ export function LoginCheckpoint() {
 }
 export function LogoutButton() {
   const router=useRouter();const [pending,setPending]=useState(false);const [error,setError]=useState("");
-  return <div><Button variant="secondary" pending={pending} onClick={async()=>{setPending(true);setError("");try{const response=await fetch("/api/auth/logout",{method:"POST"});if(!response.ok)throw new Error();router.replace("/login");router.refresh();}catch{setError("Unable to log out. Please try again.");}finally{setPending(false);}}}>Log out</Button>{error&&<p role="alert" className="field-error">{error}</p>}</div>;
+  return <div><Button variant="secondary" pending={pending} onClick={async()=>{setPending(true);setError("");try{const response=await sessionFetch("/api/auth/logout",{method:"POST"});if(!response.ok)throw new Error();router.replace("/login");router.refresh();}catch{setError("Unable to log out. Please try again.");}finally{setPending(false);}}}>Log out</Button>{error&&<p role="alert" className="field-error">{error}</p>}</div>;
 }

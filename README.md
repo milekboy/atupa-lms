@@ -38,7 +38,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Session foundation (Step 3)
 
-See [session setup and test instructions](docs/step-03-review.md). Configure the server-only variables in `.env.example`; production requires Redis and APP_ORIGIN. Use `/login` for the session checkpoint and `/dashboard` to verify route protection. Registration, recovery and profile workflows are now available; the role-aware dashboard shell is implemented.
+See [session setup and test instructions](docs/step-03-review.md). Configure the server-only variables in `.env.example`; production requires SESSION_SECRET and APP_ORIGIN. Use `/login` for the session checkpoint and `/dashboard` to verify route protection. Registration, recovery and profile workflows are now available; the role-aware dashboard shell is implemented.
 
 
 ## Account workflows (Step 4)
@@ -50,3 +50,7 @@ See [review routes, test commands and outstanding email verification](docs/step-
 The public homepage is `/`; browse `/courses` using languageCode, level and page URL parameters. Course outlines live at `/courses/[courseId]`. Data is loaded anonymously on the server through API_BASE_URL; no bearer tokens or authoring fields are sent to public clients. Premium flags are informational and do not grant lesson access. See [Step 6 review](docs/step-06-review.md) for evidence, manual checks and local Postman failure simulation instructions.
 
 Checks: `npm run test:contracts`, `npm run test:catalog-http` (normal server on 3000), `npm run test:catalog-failures` (opt-in local simulation and test server on 3100), `npm run lint`, `npm run build`.
+
+## Redis-free production sessions
+
+Set a cryptographically random `SESSION_SECRET` (at least 32 characters), `APP_ORIGIN` and `API_BASE_URL` in Vercel Production, then redeploy. Redis is no longer required. Generate the secret privately with `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"`; never commit its output. Changing the secret signs everyone out. See [session architecture and verification](docs/step-03-review.md).

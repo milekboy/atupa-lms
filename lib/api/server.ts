@@ -1,7 +1,6 @@
 import "server-only";
-import { randomUUID } from "node:crypto";
 import { ApiError, normalizeSession } from "./contracts";
-import { acquireLock, deleteSession, readSession, releaseLock, saveRotated } from "../auth/store";
+import { readSession } from "../auth/store";
 import type { Session } from "@/types/auth";
 
 export async function upstream(path: string, init: RequestInit = {}): Promise<Response> {
@@ -15,33 +14,17 @@ export async function upstream(path: string, init: RequestInit = {}): Promise<Re
 export async function responseJson(response: Response): Promise<unknown> {
   try { return await response.json(); } catch { throw new ApiError(502,"The service returned an unreadable response."); }
 }
-export async function refreshSession(id: string, staleToken?: string): Promise<Session> {
-  const owner = randomUUID(); const deadline = Date.now() + 25000;
-  while (Date.now() < deadline) {
-    const latest = await readSession(id); if (!latest) throw new ApiError(401,"Please log in again.");
-    if (staleToken && latest.accessToken !== staleToken) return latest;
-    if (await acquireLock(id,owner)) {
-      try {
-        const locked = await readSession(id); if (!locked) throw new ApiError(401,"Please log in again.");
-        if (staleToken && locked.accessToken !== staleToken) return locked;
-        const response = await upstream("/auth/refresh", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({refreshToken:locked.refreshToken}) });
-        if (!response.ok) { await deleteSession(id); throw new ApiError(401,"Your session ended. Please log in again."); }
-        const next = normalizeSession(await responseJson(response)); next.expiresAt = locked.expiresAt;
-        if (next.user.id !== locked.user.id || !await saveRotated(id,owner,next)) throw new ApiError(401,"Please log in again."); return next;
-      } catch { await deleteSession(id); throw new ApiError(401,"Your session could not be renewed. Please log in again."); }
-      finally { await releaseLock(id,owner); }
-    }
-    await new Promise(resolve => setTimeout(resolve,50));
-  }
-  throw new ApiError(503,"Your session is being updated. Please try again.");
+export async function refreshSession(value:string):Promise<Session>{
+ const old=await readSession(value);if(!old)throw new ApiError(401,"Please log in again.");
+ if(old.accessExpiresAt>Date.now()+10000)return old;
+ const response=await upstream("/auth/refresh",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refreshToken:old.refreshToken})});
+ const body=await responseJson(response);if(!response.ok){if([400,401,403].includes(response.status))throw new ApiError(401,"Your session ended. Please sign in again.");throw new ApiError(503,"Your session could not be renewed. Please try again.");}
+ const next=normalizeSession(body);if(next.user.id!==old.user.id)throw new ApiError(401,"Please sign in again.");next.expiresAt=old.expiresAt;return next;
 }
-export async function authenticated(id: string, path: string, init: RequestInit = {}) {
-  let session = await readSession(id); if (!session) throw new ApiError(401,"Please log in again.");
-  let refreshed = false;
-  if (session.accessExpiresAt <= Date.now()+10000) { session=await refreshSession(id,session.accessToken); refreshed=true; }
-  const send = (s: Session) => { const headers = new Headers(init.headers); headers.set("Authorization",`Bearer ${s.accessToken}`); return upstream(path,{...init,headers}); };
-  let response = await send(session);
-  if (response.status===401 && !refreshed) { session=await refreshSession(id,session.accessToken); response=await send(session); }
-  if (response.status===401) { await deleteSession(id); throw new ApiError(401,"Your session ended. Please log in again."); }
-  return response;
+export async function authenticated(value:string,path:string,init:RequestInit={}){
+ const session=await readSession(value);if(!session)throw new ApiError(401,"Please log in again.");
+ if(session.accessExpiresAt<=Date.now()+10000)throw new ApiError(409,"Your session needs to be renewed.",["SESSION_REFRESH_REQUIRED"]);
+ const headers=new Headers(init.headers);headers.set("Authorization",`Bearer ${session.accessToken}`);
+ const response=await upstream(path,{...init,headers});
+ if(response.status===401)throw new ApiError(401,"Your session ended. Please sign in again.");return response;
 }

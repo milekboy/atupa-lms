@@ -16,5 +16,5 @@ export async function requireUser(path = "/dashboard") {
     if (!response.ok) throw new ApiError(response.status,"Account verification is unavailable.");
     const body=await responseJson(response) as {data:unknown}; const user=safeUser(body.data);
     return canAccess(path,user.role) ? user : null;
-  } catch (e) { if(e instanceof ApiError && e.status===401) redirect(`/api/auth/expired?returnTo=${encodeURIComponent(path)}`); throw e; }
+  } catch (e) { if(e instanceof ApiError&&e.status===409)redirect(`/session/renew?returnTo=${encodeURIComponent(path)}`); if(e instanceof ApiError && e.status===401) redirect(`/api/auth/expired?returnTo=${encodeURIComponent(path)}`); throw e; }
 }

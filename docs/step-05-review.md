@@ -31,7 +31,7 @@ Implemented 2026-10-17. Step 6 is not started.
 5. On mobile, open the menu, try Escape/backdrop and select My account. Check that content stays within the screen.
 6. Log out and confirm protected pages require sign-in.
 
-Live six-role staging access, production Redis and real reset/invitation emails remain previously documented release checks. No real account credentials were used for this step. The normal development server uses the configured real backend after testing; simulation is opt-in only.
+Live six-role staging access, production session-secret configuration and real reset/invitation emails remain previously documented release checks. No real account credentials were used for this step. The normal development server uses the configured real backend after testing; simulation is opt-in only.
 
 ## Sidebar review correction (2026-10-17)
 

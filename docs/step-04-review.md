@@ -59,5 +59,5 @@ Restart the simulation before rerunning token-reuse tests because its fixture to
 
 - Backend owner must confirm the configured frontend origin and reset/invitation URL/token format. No mailbox or invitation fixture was supplied for real delivery verification.
 - Real password-reset completion and invited-user password setup must pass; saved collection errors and local simulation successes are insufficient evidence of delivery.
-- Actual staging role/field validation and ownership policies remain part of the six-role verification baseline. Existing production Redis/HTTPS verification dependencies still apply.
+- Actual staging role/field validation and ownership policies remain part of the six-role verification baseline. Existing production session-secret configuration/HTTPS verification dependencies still apply.
 - Avatar/media verification belongs to Step 7. Step 5 has not started.
