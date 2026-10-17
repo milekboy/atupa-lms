@@ -1,0 +1,17 @@
+/* Homepage motion: once-only scroll entrances and restrained interaction feedback. */
+.homepage .home-reveal{min-width:0}
+.homepage .home-reveal:focus-within{opacity:1!important;transform:none!important}
+.homepage .home-card-reveal{height:100%}
+.homepage .home-card-reveal>.public-language{display:block;height:100%}
+.homepage .home-card-reveal>.public-course-card,.homepage .public-community-grid article{height:100%}
+.homepage .public-course-card,.homepage .public-language,.homepage .public-community-grid article{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.homepage .heritage-card,.homepage .game-word-card{transition:transform .3s ease}
+.homepage .button,.homepage .public-text-link svg,.homepage .language-explore svg,.homepage .course-card-bottom a svg{transition:transform .2s ease,background .2s ease,border-color .2s ease}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .homepage .public-language:hover,.homepage .public-course-card:hover,.homepage .public-community-grid article:hover{transform:translateY(-3px);border-color:var(--color-border-strong);box-shadow:0 8px 20px #294c350a}
+ .homepage .button:hover{transform:translateY(-1px)}
+ .homepage .public-text-link:hover svg,.homepage .public-language:hover .language-explore svg,.homepage .course-card-bottom a:hover svg{transform:translateX(3px)}
+ .homepage .public-hero-art:hover .heritage-card{transform:rotate(-2deg) translateY(-2px)}
+ .homepage .public-game-art:hover .game-word-card{transform:rotate(-6deg) translateY(-2px)}
+}
+@media(prefers-reduced-motion:reduce){.homepage .home-reveal{opacity:1!important;transform:none!important}.homepage .public-language:hover{transform:none}}

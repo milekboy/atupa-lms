@@ -222,3 +222,4 @@ th, td { padding: 14px 16px; border-top: 1px solid var(--color-border); } th { c
 .public-nav{height:calc(var(--public-header-height) - 1px);min-height:0}
 .public-site :is(#main-content,#how-it-works,#gamecard,#for-families){scroll-margin-top:calc(var(--public-header-height) + 24px)}
 @media(max-width:680px){.public-site{--public-header-height:81px}.public-nav{min-height:0}}
+
