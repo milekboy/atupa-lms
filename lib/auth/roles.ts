@@ -1,13 +1,10 @@
 import { roles, type Role } from "@/types/auth";
 export function isRole(value: unknown): value is Role { return typeof value === "string" && roles.includes(value as Role); }
 export function canAccess(path: string, role: Role): boolean {
-  const section = path.split("/")[2];
-  if (["users", "schools", "languages", "admin"].includes(section)) return role === "super_admin";
-  if (section === "children") return role === "parent";
-  if (section === "content") return ["teacher", "content_creator", "super_admin"].includes(role);
-  if (section === "classes") return ["teacher", "school_admin", "learner", "super_admin"].includes(role);
-  if (["learn", "quizzes", "progress", "achievements", "games"].includes(section)) return role === "learner";
-  return true;
+  if(path==="/dashboard")return true;
+  const section=path.split("/")[2];
+  const access:Record<string,readonly Role[]>={profile:roles,notifications:roles,courses:roles,users:["super_admin"],schools:["super_admin"],languages:["super_admin"],admin:["super_admin"],members:["school_admin","super_admin"],children:["parent"],content:["teacher","content_creator","super_admin"],classes:["teacher","school_admin","learner","super_admin"],assignments:["learner","teacher","school_admin","super_admin"],reports:["teacher","school_admin","super_admin"],learn:["learner"],quizzes:["learner"],progress:["learner"],achievements:["learner"],games:["learner"],certificates:["learner","super_admin"]};
+  return access[section]?.includes(role)??false;
 }
 export function safeReturnTo(value: string | null | undefined): string {
   if (!value || !value.startsWith("/dashboard") || /[\\\r\n]/.test(value)) return "/dashboard";

@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts",
+    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts",
     "test:session-http": "node --test tests/session-http.mjs",
     "simulate:auth": "postman simulation run postman/simulations/auth.sim.yaml --port 4900 --no-history --output ndjson",
     "dev:auth-test": "node scripts/start-auth-test.mjs",
-    "test:account-http": "node --test tests/account-http.mjs"
+    "test:account-http": "node --test tests/account-http.mjs",
+    "test:catalog-http": "node --test tests/catalog-http.mjs",
+    "test:catalog-failures": "node --test tests/catalog-failures.mjs",
+    "simulate:catalog": "postman simulation run postman/simulations/catalog.sim.yaml --port 4900 --no-history --output ndjson"
   },
   "dependencies": {
     "motion": "^14.3.0",

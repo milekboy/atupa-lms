@@ -1,0 +1,258 @@
+{
+  "date": "2026-10-17",
+  "timezone": "Africa/Lagos",
+  "environment": "supplied live backend; anonymous read-only",
+  "baseUrl": "https://atupa-lms-backend.onrender.com/api/v1",
+  "requestCount": 12,
+  "allPassed": true,
+  "checks": [
+    {
+      "path": "/languages",
+      "status": 200,
+      "activeLanguages": [
+        {
+          "code": "edo54337533",
+          "name": "Edo"
+        },
+        {
+          "code": "edo54897157",
+          "name": "Edo"
+        },
+        {
+          "code": "yoruba",
+          "name": "Yoruba"
+        },
+        {
+          "code": "igbo",
+          "name": "Igbo"
+        },
+        {
+          "code": "hausa",
+          "name": "Hausa"
+        }
+      ]
+    },
+    {
+      "path": "/courses?page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 9,
+      "courses": [
+        {
+          "id": "6ad20e4aef26c6008e65f4d6",
+          "title": "Hausa Advanced",
+          "languageCode": "hausa",
+          "level": "advanced",
+          "status": "published",
+          "isPremium": true
+        },
+        {
+          "id": "6ad20e3eef26c6008e65f4c6",
+          "title": "Hausa Beginner",
+          "languageCode": "hausa",
+          "level": "beginner",
+          "status": "published",
+          "isPremium": false
+        },
+        {
+          "id": "6ad20e44ef26c6008e65f4ce",
+          "title": "Hausa Intermediate",
+          "languageCode": "hausa",
+          "level": "intermediate",
+          "status": "published",
+          "isPremium": false
+        },
+        {
+          "id": "6ad20e37ef26c6008e65f4b8",
+          "title": "Igbo Advanced",
+          "languageCode": "igbo",
+          "level": "advanced",
+          "status": "published",
+          "isPremium": true
+        },
+        {
+          "id": "6ad20e2cef26c6008e65f4a8",
+          "title": "Igbo Beginner",
+          "languageCode": "igbo",
+          "level": "beginner",
+          "status": "published",
+          "isPremium": false
+        },
+        {
+          "id": "6ad20e31ef26c6008e65f4b0",
+          "title": "Igbo Intermediate",
+          "languageCode": "igbo",
+          "level": "intermediate",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=yoruba&level=beginner&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e19ef26c6008e65f48a",
+          "title": "Yoruba Beginner",
+          "languageCode": "yoruba",
+          "level": "beginner",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=yoruba&level=intermediate&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e1fef26c6008e65f492",
+          "title": "Yoruba Intermediate",
+          "languageCode": "yoruba",
+          "level": "intermediate",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=yoruba&level=advanced&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e25ef26c6008e65f49a",
+          "title": "Yoruba Advanced",
+          "languageCode": "yoruba",
+          "level": "advanced",
+          "status": "published",
+          "isPremium": true
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=igbo&level=beginner&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e2cef26c6008e65f4a8",
+          "title": "Igbo Beginner",
+          "languageCode": "igbo",
+          "level": "beginner",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=igbo&level=intermediate&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e31ef26c6008e65f4b0",
+          "title": "Igbo Intermediate",
+          "languageCode": "igbo",
+          "level": "intermediate",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=igbo&level=advanced&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e37ef26c6008e65f4b8",
+          "title": "Igbo Advanced",
+          "languageCode": "igbo",
+          "level": "advanced",
+          "status": "published",
+          "isPremium": true
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=hausa&level=beginner&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e3eef26c6008e65f4c6",
+          "title": "Hausa Beginner",
+          "languageCode": "hausa",
+          "level": "beginner",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=hausa&level=intermediate&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e44ef26c6008e65f4ce",
+          "title": "Hausa Intermediate",
+          "languageCode": "hausa",
+          "level": "intermediate",
+          "status": "published",
+          "isPremium": false
+        }
+      ]
+    },
+    {
+      "path": "/courses?languageCode=hausa&level=advanced&page=1&limit=6",
+      "status": 200,
+      "page": 1,
+      "limit": 6,
+      "total": 1,
+      "courses": [
+        {
+          "id": "6ad20e4aef26c6008e65f4d6",
+          "title": "Hausa Advanced",
+          "languageCode": "hausa",
+          "level": "advanced",
+          "status": "published",
+          "isPremium": true
+        }
+      ]
+    },
+    {
+      "path": "/courses/6ad20e4aef26c6008e65f4d6",
+      "status": 200,
+      "courseId": "6ad20e4aef26c6008e65f4d6",
+      "isPremium": true,
+      "modules": 2,
+      "totals": {
+        "lessons": 2,
+        "quizzes": 1,
+        "activities": 2
+      }
+    }
+  ]
+}

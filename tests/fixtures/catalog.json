@@ -1,0 +1,244 @@
+{
+  "languages": [
+    {
+      "id": "6ad21b1e15c86abc8ad65dc4",
+      "code": "edo54337533",
+      "name": "Edo",
+      "nativeName": "Ẹdo",
+      "isActive": true,
+      "order": 0,
+      "createdAt": "2026-10-16T12:39:58.588Z",
+      "updatedAt": "2026-10-16T12:39:58.588Z"
+    },
+    {
+      "id": "6ad21d5515c86abc8ad65e09",
+      "code": "edo54897157",
+      "name": "Edo",
+      "nativeName": "Ẹdo",
+      "isActive": true,
+      "order": 0,
+      "createdAt": "2026-10-16T12:49:25.771Z",
+      "updatedAt": "2026-10-16T12:49:25.771Z"
+    },
+    {
+      "id": "6ad20e17ef26c6008e65f481",
+      "code": "yoruba",
+      "name": "Yoruba",
+      "nativeName": "Èdè Yorùbá",
+      "isActive": true,
+      "order": 1,
+      "createdAt": "2026-10-16T11:44:23.287Z",
+      "updatedAt": "2026-10-16T12:49:27.532Z"
+    },
+    {
+      "id": "6ad20e17ef26c6008e65f482",
+      "code": "igbo",
+      "name": "Igbo",
+      "nativeName": "Asụsụ Igbo",
+      "isActive": true,
+      "order": 2,
+      "createdAt": "2026-10-16T11:44:23.605Z",
+      "updatedAt": "2026-10-16T11:44:23.605Z"
+    },
+    {
+      "id": "6ad20e17ef26c6008e65f483",
+      "code": "hausa",
+      "name": "Hausa",
+      "nativeName": "Harshen Hausa",
+      "isActive": true,
+      "order": 3,
+      "createdAt": "2026-10-16T11:44:23.921Z",
+      "updatedAt": "2026-10-16T11:44:23.921Z"
+    }
+  ],
+  "list": {
+    "items": [
+      {
+        "id": "6ad20e4aef26c6008e65f4d6",
+        "languageCode": "hausa",
+        "level": "advanced",
+        "title": "Hausa Advanced",
+        "description": "Learn Hausa at advanced level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": true,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:45:20.103Z",
+        "createdAt": "2026-10-16T11:45:14.711Z",
+        "updatedAt": "2026-10-16T11:45:20.103Z"
+      },
+      {
+        "id": "6ad20e3eef26c6008e65f4c6",
+        "languageCode": "hausa",
+        "level": "beginner",
+        "title": "Hausa Beginner",
+        "description": "Learn Hausa at beginner level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": false,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:45:08.387Z",
+        "createdAt": "2026-10-16T11:45:02.789Z",
+        "updatedAt": "2026-10-16T11:45:08.387Z"
+      },
+      {
+        "id": "6ad20e44ef26c6008e65f4ce",
+        "languageCode": "hausa",
+        "level": "intermediate",
+        "title": "Hausa Intermediate",
+        "description": "Learn Hausa at intermediate level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": false,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:45:14.235Z",
+        "createdAt": "2026-10-16T11:45:08.864Z",
+        "updatedAt": "2026-10-16T11:45:14.235Z"
+      },
+      {
+        "id": "6ad20e37ef26c6008e65f4b8",
+        "languageCode": "igbo",
+        "level": "advanced",
+        "title": "Igbo Advanced",
+        "description": "Learn Igbo at advanced level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": true,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:45:01.186Z",
+        "createdAt": "2026-10-16T11:44:55.799Z",
+        "updatedAt": "2026-10-16T11:45:01.186Z"
+      },
+      {
+        "id": "6ad20e2cef26c6008e65f4a8",
+        "languageCode": "igbo",
+        "level": "beginner",
+        "title": "Igbo Beginner",
+        "description": "Learn Igbo at beginner level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": false,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:44:49.443Z",
+        "createdAt": "2026-10-16T11:44:44.060Z",
+        "updatedAt": "2026-10-16T11:44:49.443Z"
+      },
+      {
+        "id": "6ad20e31ef26c6008e65f4b0",
+        "languageCode": "igbo",
+        "level": "intermediate",
+        "title": "Igbo Intermediate",
+        "description": "Learn Igbo at intermediate level through lessons, games and quizzes.",
+        "courseType": "language",
+        "ageGroup": "all",
+        "durationMinutes": 120,
+        "isPremium": false,
+        "tags": [],
+        "status": "published",
+        "createdByUserId": "system-seed",
+        "schoolId": null,
+        "publishedAt": "2026-10-16T11:44:55.321Z",
+        "createdAt": "2026-10-16T11:44:49.916Z",
+        "updatedAt": "2026-10-16T11:44:55.321Z"
+      }
+    ],
+    "page": 1,
+    "limit": 6,
+    "total": 9
+  },
+  "outline": {
+    "course": {
+      "id": "6ad20e4aef26c6008e65f4d6",
+      "languageCode": "hausa",
+      "level": "advanced",
+      "title": "Hausa Advanced",
+      "description": "Learn Hausa at advanced level through lessons, games and quizzes.",
+      "courseType": "language",
+      "ageGroup": "all",
+      "durationMinutes": 120,
+      "isPremium": true,
+      "tags": [],
+      "status": "published",
+      "createdByUserId": "system-seed",
+      "schoolId": null,
+      "publishedAt": "2026-10-16T11:45:20.103Z",
+      "createdAt": "2026-10-16T11:45:14.711Z",
+      "updatedAt": "2026-10-16T11:45:20.103Z"
+    },
+    "modules": [
+      {
+        "id": "6ad20e4bef26c6008e65f4d7",
+        "courseId": "6ad20e4aef26c6008e65f4d6",
+        "title": "Module 1: Greetings",
+        "order": 1,
+        "createdAt": "2026-10-16T11:45:15.189Z",
+        "updatedAt": "2026-10-16T11:45:15.189Z",
+        "lessons": [
+          {
+            "id": "6ad20e4bef26c6008e65f4d8",
+            "courseId": "6ad20e4aef26c6008e65f4d6",
+            "moduleId": "6ad20e4bef26c6008e65f4d7",
+            "title": "Basic Greetings",
+            "estimatedMinutes": 10,
+            "order": 1
+          }
+        ],
+        "quizzes": [
+          {
+            "id": "6ad20e4fef26c6008e65f4dd",
+            "courseId": "6ad20e4aef26c6008e65f4d6",
+            "moduleId": "6ad20e4bef26c6008e65f4d7",
+            "title": "Greetings quiz",
+            "questionCount": 2,
+            "passScorePercent": 70
+          }
+        ]
+      },
+      {
+        "id": "6ad20e4def26c6008e65f4da",
+        "courseId": "6ad20e4aef26c6008e65f4d6",
+        "title": "Module 2: Animals",
+        "order": 2,
+        "createdAt": "2026-10-16T11:45:17.409Z",
+        "updatedAt": "2026-10-16T11:45:17.409Z",
+        "lessons": [
+          {
+            "id": "6ad20e4eef26c6008e65f4db",
+            "courseId": "6ad20e4aef26c6008e65f4d6",
+            "moduleId": "6ad20e4def26c6008e65f4da",
+            "title": "Animal vocabulary",
+            "estimatedMinutes": 10,
+            "order": 1
+          }
+        ],
+        "quizzes": []
+      }
+    ],
+    "courseQuizzes": [],
+    "totals": {
+      "lessons": 2,
+      "quizzes": 1,
+      "activities": 2
+    }
+  }
+}

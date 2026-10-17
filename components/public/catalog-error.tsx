@@ -1,0 +1,5 @@
+import Link from "next/link";
+import {ApiError} from "@/lib/api/contracts";
+import {HiOutlineExclamationTriangle} from "react-icons/hi2";
+import {RetryCatalog} from "./interactive";
+export function CatalogError({error}:{error:unknown}){const code=error instanceof ApiError?error.status:503;const access=code===401||code===403;return <div className="public-catalog-error" role="alert"><HiOutlineExclamationTriangle aria-hidden="true"/><h2>{access?"This catalog view is restricted":code===404?"Course not found":code===400?"Check your filters":"We couldn't load the catalog"}</h2><p>{access?"The service has restricted access to this information. You can sign in or return to browsing.":error instanceof ApiError?error.message:"Please try again in a moment."}</p><div className="button-row">{code!==400&&code!==404&&<RetryCatalog/>}{access&&<Link href="/login" className="button button-primary">Sign in</Link>}<Link href="/courses" className="button button-ghost">Back to all courses</Link></div></div>;}

@@ -34,7 +34,7 @@ http.createServer(async(req,res)=>{
   }
   if(url.pathname==='/api/v1/auth/login'){
     if(body.password!=='fixture-password')return send(res,401,{success:false,message:'Invalid credentials'});
-    const name=body.email.split('@')[0];const role=name==='admin'?'super_admin':'learner';
+    const name=body.email.split('@')[0];const role=name==='admin'?'super_admin':['parent','teacher','school_admin','content_creator','super_admin'].includes(name)?name:'learner';
     const token=`access-${name}`;const refresh=`refresh-${name}`;sessions.set(refresh,{name,role});
     return send(res,200,{success:true,data:{user:{...user,role},accessToken:token,refreshToken:refresh,expiresIn:['rotate','failrefresh','refreshslow'].includes(name)?1:900}});
   }
@@ -46,7 +46,8 @@ http.createServer(async(req,res)=>{
     const token=`rotated-${rotates}-${old.name}`;sessions.set(token,old);return send(res,200,{success:true,data:{user:{...user,role:old.role},accessToken:token,refreshToken:token,expiresIn:900}});
   }
   if(url.pathname==='/api/v1/auth/logout')return send(res,200,{success:true,data:null});
-  if(url.pathname==='/api/v1/users/me')return send(res,200,{success:true,data:{...user,role:req.headers.authorization?.includes('admin')?'super_admin':'learner',passwordHash:'must-not-leak'}});
+  if(url.pathname==='/api/v1/users/me')return send(res,200,{success:true,data:{...user,role:[...sessions.values()].find(s=>bearer?.endsWith(s.name))?.role??'learner',passwordHash:'must-not-leak'}});
+  if(url.pathname==='/api/v1/notifications')return send(res,200,{success:true,data:{items:[],page:1,limit:10,total:0}});
   if(url.pathname==='/api/v1/admin/users')return send(res,403,{success:false,message:'Insufficient permissions'});
   if(url.pathname==='/api/v1/progress/timeout'){await new Promise(r=>setTimeout(r,2200));return send(res,200,{success:true,data:{}});}
   if(url.pathname==='/api/v1/progress/bad-json'){res.writeHead(500,{'Content-Type':'text/html'});return res.end('<h1>upstream error</h1>');}

@@ -88,3 +88,7 @@ The user subsequently supplied `https://atupa-lms-backend.onrender.com/api` and 
 ## Step 4 account implementation (2026-10-16)
 
 Registration (including nested school sessions), recovery/reset, restricted profile PATCH, password change and password-confirmed deletion now have frontend routes and local simulation tests. G05 email delivery remains open; actual reset/invitation links and backend frontend-origin configuration are unverified. Avatar changes await G01/Step 7. See `step-04-review.md` for evidence and scope.
+
+## Step 6 public discovery (2026-10-17)
+
+Anonymous GET /languages, /courses and /courses/:courseId are live-verified. Twelve read-only requests confirmed active Yoruba, Igbo and Hausa, all nine language/level pathways and a premium outline. See `step-06-live-checks.json` and `step-06-review.md`. Frontend filters send languageCode, level, page and limit only. Two test-like Edo records remain in live active languages and have no matching courses; labels distinguish the codes. Advanced courses are premium. No entitlement response was tested, no lesson access is granted by catalog browsing, and G09/conditional payment scope remains open. Educational content quality is still unverified.

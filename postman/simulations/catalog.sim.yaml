@@ -1,0 +1,5 @@
+simulation: atupa-public-catalog
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/catalog.js

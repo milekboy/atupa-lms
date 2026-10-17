@@ -11,18 +11,18 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 # Current State and Source of Truth
 
 - Project: `C:/Users/User/OneDrive/Desktop/Atupa LMS/atupa-lms`.
-- Installed foundation: Next.js 16.4.2, React 19.3.0, TypeScript, Tailwind CSS 4, ESLint, and npm lockfile. The homepage is still the starter page.
+- Installed foundation: Next.js 16.4.2, React 19.3.0, TypeScript, Tailwind CSS 4, ESLint, and npm lockfile. Public homepage, course browsing and outlines are implemented.
 - Product sources: `C:/Users/User/Downloads/ATUPA LMS — PRD.pdf`, especially section 34, and `C:/Users/User/Downloads/ATUPA_LMS_User_Stories.docx`, especially P1 stories US-01 through US-16, US-18, and US-19.
 - API source: `C:/Users/User/Downloads/ATUPA LMS API.postman_collection.json`, containing 191 saved request examples across 20 folders. Examples and scripts are evidence of documented behavior, not a live verification report.
 - Visual references: the supplied ATUPA website screenshot and `C:/Users/User/OneDrive/Desktop/Bible plus v2/bibleplus-admin-v2/plan.md` plus its dashboard shell. BiblePlus endpoints, role names, blue colors, and domain features do not apply to ATUPA.
-- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production Redis and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Steps 5 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
+- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production Redis and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
 
 ---
 
 # Important Project Constraints
 
 - Keep the existing Next.js App Router, TypeScript, Tailwind CSS, and npm setup. Read relevant guides in `node_modules/next/dist/docs/` before writing code, as required by `AGENTS.md`.
-- Add React Icons, React Toastify, and `motion` when implementing the shared foundation. These packages are not currently installed. Import animation primitives from `motion/react`.
+- Add React Icons, React Toastify, and `motion` when implementing the shared foundation. These packages are now installed. Import animation primitives from `motion/react`.
 - Use the exact backend roles: `learner`, `parent`, `teacher`, `school_admin`, `content_creator`, and `super_admin`. Verify each endpoint's allowed roles rather than assuming all staff have equal access.
 - Use a server-only `API_BASE_URL` for backend transport, defaulted in `.env.example` to `https://atupa-lms-backend.onrender.com/api/v1`. Paths below are relative to this base. Never generate `/api/v1/api/v1/...`.
 - Keep access and refresh tokens server-side in protected session cookies or an equivalent server session. Never put tokens in localStorage, sessionStorage, rendered HTML, URLs, or logs.
@@ -63,7 +63,7 @@ Use one complete `.dark` token set for dashboard themes. Keep cream and green br
 
 - Use an expressive serif for public headings and selected learner headings, paired with a legible sans-serif for navigation, forms, tables, and body text.
 - Choose fonts that correctly render Yoruba, Igbo, and Hausa diacritics. Verify sample phrases and accented names at all used weights. Do not assume the BiblePlus Aeonik files are present or copy trial fonts without an appropriate license.
-- Adapt BiblePlus's floating rounded sidebar, icon-first collapsed rail, hover expansion, top bar, and rounded main workspace. Expansion should overlay rather than unexpectedly shift content.
+- Adapt BiblePlus's floating rounded sidebar, icon-first collapsed rail, hover expansion, top bar, and rounded main workspace. The main workspace should resize smoothly with sidebar expansion and collapse, as requested during Step 5 review.
 - Use grouped role-specific navigation, clear page titles, concise supporting copy, primary actions, filters, summary cards, and a main data surface.
 - Prefer thin borders, `rounded-2xl` containers, `rounded-xl` controls, restrained shadows, and generous spacing. Cultural patterns belong mainly on public/introductory surfaces and must not interfere with reading.
 - Learner pages can feel welcoming and engaging. Staff pages should retain compact, professional information density.
@@ -196,7 +196,7 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [x] Step 3 - Build production API transport, sessions, and authorization
 
-**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Production Redis and live staging-account verification remain explicit release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Steps 5 onward remain unstarted.
+**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Production Redis and live staging-account verification remain explicit release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted.
 
 ## Requirements
 
@@ -220,7 +220,7 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 4 - Complete registration, recovery, and profile workflows
 
-**Status (2026-10-16):** Frontend implementation ready for review: all registration types, recovery/reset/invitation screens, protected profile edits, password change and account deletion. Ten contract tests plus fifteen HTTP scenarios passed locally; browser flows checked with synthetic fixtures. Remains unchecked pending actual reset/invitation email delivery, backend link configuration and staging sign-off. Avatar updates await Step 7 media verification. See `docs/step-04-review.md`. Step 5 is unstarted.
+**Status (2026-10-16):** Frontend implementation ready for review: all registration types, recovery/reset/invitation screens, protected profile edits, password change and account deletion. Ten contract tests plus fifteen HTTP scenarios passed locally; browser flows checked with synthetic fixtures. Remains unchecked pending actual reset/invitation email delivery, backend link configuration and staging sign-off. Avatar updates await Step 7 media verification. See `docs/step-04-review.md`. Step 5 shell is implemented; see its review notes.
 
 ## Requirements
 
@@ -241,7 +241,9 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 ---
 
-# [ ] Step 5 - Build the responsive role-aware dashboard shell
+# [x] Step 5 - Build the responsive role-aware dashboard shell
+
+**Status (2026-10-17):** Implemented the floating sidebar, keyboard pinning, mobile drawer, role overviews, workspace page search, theme/account/logout controls and read-only notification shortcut. Fourteen contract/navigation tests, six-role synthetic HTTP checks, lint, TypeScript and production build passed. Browser checks covered desktop and 320px layouts, focus trapping/restoration, active navigation, page search, notifications and themes. Live staging roles remain a release dependency. See `docs/step-05-review.md`. Step 6 public discovery is implemented; Step 7 remains unstarted.
 
 ## Requirements
 
@@ -260,7 +262,9 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 ---
 
-# [ ] Step 6 - Implement the public homepage and course discovery
+# [x] Step 6 - Implement the public homepage and course discovery
+
+**Status (2026-10-17):** Public homepage, anonymous course catalog and course outlines implemented. All three languages and nine level pathways passed live read-only checks. Filtering/pagination, premium labels, loading/empty/retry states and mobile navigation delivered. Nineteen contract tests, live public-page HTTP checks, local Postman failure checks, lint, TypeScript and production build passed. Premium lesson entitlement and educational content quality remain release checks; see `docs/step-06-review.md`. Step 7 is unstarted.
 
 ## Requirements
 
