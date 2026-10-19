@@ -1,4 +1,5 @@
 "use client";
+import {BrandLogo} from "@/components/brand-logo";
 import {sessionFetch} from "@/lib/auth/session-fetch";
 import { useState,type FormEvent } from "react";
 import Link from "next/link";
@@ -15,7 +16,7 @@ export function LoginCheckpoint() {
     <section className="login-shell" aria-label="Sign in to ATUPA LMS">
       <div className="login-form-panel">
         <div className="login-topbar">
-          <Link href="/" className="wordmark" aria-label="ATUPA LMS home"><span className="brand-mark" aria-hidden="true" /><span><strong>ATUPA</strong><small>Learning management system</small></span></Link>
+          <Link href="/" className="wordmark" aria-label="ATUPA LMS home"><BrandLogo tagline="Learning management system"/></Link>
           <IconButton label={dark ? "Switch to light theme" : "Switch to dark theme"} onClick={toggle}>{dark ? <FiSun /> : <FiMoon />}</IconButton>
         </div>
         <div className="login-form-content">
