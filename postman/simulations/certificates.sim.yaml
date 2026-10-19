@@ -1,0 +1,5 @@
+simulation: atupa-certificates-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/certificates.js

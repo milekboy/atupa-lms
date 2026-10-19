@@ -1,4 +1,5 @@
 "use client";
+import {HiOutlineAcademicCap,HiOutlineGlobeAlt,HiOutlineQrCode,HiOutlinePuzzlePiece} from "react-icons/hi2";
 import {BrandLogo} from "@/components/brand-logo";
 import {sessionFetch} from "@/lib/auth/session-fetch";
 import {useEffect,useRef,useState,type ReactNode} from "react";
@@ -12,7 +13,7 @@ import {Button,DropdownMenu,IconButton,Input,Modal} from "@/components/ui";
 import {isActive,navigationFor,roleNames,searchNavigation,type Destination} from "@/lib/dashboard/navigation";
 import type {User} from "@/types/auth";
 import {NotificationsPanel} from "./notifications-panel";
-const icons:Record<Destination["icon"],IconType>={home:HiOutlineHome,account:HiOutlineUserCircle,courses:HiOutlineBookOpen,progress:HiOutlineChartBar,children:HiOutlineUsers,classes:HiOutlineUserGroup,content:HiOutlinePencilSquare,media:HiOutlinePhoto,users:HiOutlineUsers,reports:HiOutlineChartBar,assignments:HiOutlineClipboardDocumentList,schools:HiOutlineBuildingOffice2,languages:HiOutlineLanguage};
+const icons:Record<Destination["icon"],IconType>={certificates:HiOutlineAcademicCap,vocabulary:HiOutlineLanguage,culture:HiOutlineGlobeAlt,gamecards:HiOutlineQrCode,games:HiOutlinePuzzlePiece,home:HiOutlineHome,account:HiOutlineUserCircle,courses:HiOutlineBookOpen,progress:HiOutlineChartBar,children:HiOutlineUsers,classes:HiOutlineUserGroup,content:HiOutlinePencilSquare,media:HiOutlinePhoto,users:HiOutlineUsers,reports:HiOutlineChartBar,assignments:HiOutlineClipboardDocumentList,schools:HiOutlineBuildingOffice2,languages:HiOutlineLanguage};
 function NavLinks({user,path,onNavigate}:{user:User;path:string;onNavigate:()=>void}){const items=navigationFor(user.role);const groups=[...new Set(items.map(i=>i.group))];return <nav aria-label="Workspace navigation">{groups.map(group=><div className="shell-nav-group" key={group}><p className="shell-nav-label">{group}</p>{items.filter(i=>i.group===group).map(item=>{const Icon=icons[item.icon];return <Link key={item.href} href={item.href} title={item.label} aria-label={item.label} aria-current={isActive(path,item.href)?"page":undefined} className="shell-nav-link" onClick={onNavigate}><Icon aria-hidden="true"/><span className="shell-nav-text">{item.label}</span><HiOutlineChevronRight className="nav-chevron" aria-hidden="true"/></Link>;})}</div>)}</nav>;}
 export function DashboardShell({user,children}:{user:User;children:ReactNode}){
  const path=usePathname();const router=useRouter();const {dark,toggle}=useTheme();const[hover,setHover]=useState(false);const[focused,setFocused]=useState(false);const[pinned,setPinned]=useState(false);const[mobile,setMobile]=useState(false);const[search,setSearch]=useState(false);const[query,setQuery]=useState("");const[notices,setNotices]=useState(false);const[loggingOut,setLoggingOut]=useState(false);const[error,setError]=useState("");const drawer=useRef<HTMLDialogElement>(null);const menuTrigger=useRef<HTMLButtonElement>(null);

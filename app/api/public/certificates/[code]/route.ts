@@ -1,0 +1,5 @@
+import {upstream,responseJson} from "@/lib/api/server";
+import {ApiError,object} from "@/lib/api/contracts";
+import {json,errorResponse} from "@/lib/api/http";
+import {code,verification} from "@/lib/certificates/contracts";
+export async function GET(_request:Request,{params}:{params:Promise<{code:string}>}){try{const value=(await params).code;if(!/^[A-Za-z0-9_-]{1,100}$/.test(value))throw new ApiError(400,'Enter a valid verification code.');const r=await upstream(`/certificates/verify/${code(value)}`);if(r.status===404)throw new ApiError(404,'No certificate was found for this verification code.');if(!r.ok)throw new ApiError(r.status===429?429:502,r.status===429?'Too many verification requests. Please try again later.':'Certificate verification is temporarily unavailable.');const envelope=object(await responseJson(r));if(envelope.success!==true)throw new ApiError(502,'Certificate verification is temporarily unavailable.');return json({success:true,data:verification(envelope.data)});}catch(e){return errorResponse(e);}}

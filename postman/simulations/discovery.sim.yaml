@@ -1,0 +1,5 @@
+simulation: atupa-discovery-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/discovery.js

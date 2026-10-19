@@ -1,5 +1,5 @@
 import type {Role} from "@/types/auth";
-export type Destination={label:string;href:string;group:string;icon:"home"|"account"|"courses"|"progress"|"children"|"classes"|"content"|"media"|"users"|"reports"|"assignments"|"schools"|"languages";roles:readonly Role[];implemented:boolean;keywords:string[]};
+export type Destination={label:string;href:string;group:string;icon:"home"|"account"|"courses"|"progress"|"children"|"classes"|"content"|"media"|"users"|"reports"|"assignments"|"schools"|"languages"|"vocabulary"|"culture"|"gamecards"|"games"|"certificates";roles:readonly Role[];implemented:boolean;keywords:string[]};
 const everyone:Role[]=["learner","parent","teacher","school_admin","content_creator","super_admin"];
 // Activate a destination only when its real page and permissions are implemented.
 export const destinations:Destination[]=[
@@ -7,6 +7,12 @@ export const destinations:Destination[]=[
  {label:"My courses",href:"/dashboard/courses",group:"Learning",icon:"courses",roles:["learner"],implemented:true,keywords:["lessons","language"]},
  {label:"Quiz attempts",href:"/dashboard/quizzes",group:"Learning",icon:"assignments",roles:["learner"],implemented:true,keywords:["quiz","results","attempts"]},
  {label:"Progress",href:"/dashboard/progress",group:"Learning",icon:"progress",roles:["learner"],implemented:true,keywords:["points","badges"]},
+ {label:"Vocabulary",href:"/dashboard/vocabulary",group:"Discover",icon:"vocabulary",roles:["learner"],implemented:true,keywords:["words","translations"]},
+ {label:"Culture",href:"/dashboard/culture",group:"Discover",icon:"culture",roles:["learner"],implemented:true,keywords:["traditions","topics"]},
+ {label:"GameCards",href:"/dashboard/gamecards",group:"Discover",icon:"gamecards",roles:["learner"],implemented:true,keywords:["scan","qr","challenge"]},
+ {label:"Games",href:"/dashboard/games",group:"Discover",icon:"games",roles:["learner"],implemented:true,keywords:["play"]},
+ {label:"Card QR codes",href:"/dashboard/card-qr",group:"Publishing",icon:"gamecards",roles:["teacher","content_creator","super_admin"],implemented:true,keywords:["print","qr"]},
+ {label:"Certificates",href:"/dashboard/certificates",group:"Learning",icon:"certificates",roles:["learner","super_admin"],implemented:true,keywords:["achievement","verify","revoke"]},
  {label:"My children",href:"/dashboard/children",group:"Family",icon:"children",roles:["parent"],implemented:false,keywords:["child","family"]},
  {label:"Classes",href:"/dashboard/classes",group:"Teaching",icon:"classes",roles:["teacher","school_admin"],implemented:false,keywords:["students"]},
  {label:"Assignments",href:"/dashboard/assignments",group:"Teaching",icon:"assignments",roles:["teacher","learner"],implemented:false,keywords:["work","review"]},

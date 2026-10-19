@@ -1,0 +1,5 @@
+simulation: atupa-public-session-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/public-session.js

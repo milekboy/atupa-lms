@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts tests/media.test.ts tests/authoring.test.ts tests/assessments.test.ts tests/learning.test.ts tests/telemetry.test.ts",
+    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts tests/media.test.ts tests/authoring.test.ts tests/assessments.test.ts tests/learning.test.ts tests/telemetry.test.ts tests/discovery.test.ts tests/certificates.test.ts",
     "test:session-http": "node --test tests/session-http.mjs",
     "simulate:auth": "postman simulation run postman/simulations/auth.sim.yaml --port 4900 --no-history --output ndjson",
     "dev:auth-test": "node scripts/start-auth-test.mjs",
@@ -22,7 +22,11 @@
     "simulate:learning": "postman simulation run postman/simulations/learning.sim.yaml --port 4900 --no-history --output ndjson",
     "test:learning-http": "node --test tests/learning-http.mjs",
     "simulate:progress": "postman simulation run postman/simulations/progress.sim.yaml --port 4900 --no-history --output ndjson",
-    "test:progress-http": "node --test tests/progress-http.mjs"
+    "test:progress-http": "node --test tests/progress-http.mjs",
+    "simulate:discovery": "postman simulation run postman/simulations/discovery.sim.yaml --port 4900 --no-history --output ndjson",
+    "test:discovery-http": "node --test tests/discovery-http.mjs",
+    "simulate:certificates": "postman simulation run postman/simulations/certificates.sim.yaml --port 4900 --no-history --output ndjson",
+    "test:certificates-http": "node --test tests/certificates-http.mjs"
   },
   "dependencies": {
     "motion": "^14.3.0",

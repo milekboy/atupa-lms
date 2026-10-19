@@ -13,7 +13,15 @@ async function handle(request:NextRequest,context:Context) {
     if(!path.length || !namespaces.has(path[0]) || path.some(segment=>!/^[A-Za-z0-9_-]+$/.test(segment)) || path.includes("webhooks")) throw new ApiError(400,"This API path is not supported.");
     const mutation=!["GET","HEAD"].includes(request.method); if(mutation) checkOrigin(request);
     const id=request.cookies.get(sessionCookie)?.value; if(!id) throw new ApiError(401,"Please log in again.");
-    if(path[0]==="learning"||path[0]==="progress"||path[0]==="dashboards"&&path[1]==="learner"){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(session.user.role!=="learner")throw new ApiError(403,"This learning action requires a learner account.");}
+    if(path[0]==="learning"||path[0]==="gamecard"||path[0]==="progress"||path[0]==="dashboards"&&path[1]==="learner"){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(session.user.role!=="learner")throw new ApiError(403,"This learning action requires a learner account.");}
+    if(path[0]==="certificates"){
+      if(path[1]==="issue")throw new ApiError(404,"Certificate issuance is automatic.");
+      const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");
+      const admin=session.user.role==="super_admin",learner=session.user.role==="learner";
+      if(!admin&&!learner)throw new ApiError(403,"This certificate action is not available to your account.");
+      if(path.length===1&&(!admin||request.method!=="GET")||path[2]==="revoke"&&(!admin||request.method!=="POST")||path[1]==="mine"&&(!learner||request.method!=="GET"))throw new ApiError(403,"This certificate action is not permitted.");
+      if(path.length===2&&!["GET"].includes(request.method)||path.length>3||path.length===3&&path[2]!=="revoke")throw new ApiError(400,"This certificate action is not supported.");
+    }
     const type=request.headers.get("content-type")??"";
     if(mutation && Number(request.headers.get("content-length"))>26*1024*1024) throw new ApiError(413,"This upload is too large.");
     const headers=new Headers(); if(type) headers.set("Content-Type",type); headers.set("Accept",request.headers.get("accept")??"application/json");
