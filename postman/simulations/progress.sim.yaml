@@ -1,0 +1,5 @@
+simulation: atupa-progress-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/progress.js

@@ -13,7 +13,7 @@ async function handle(request:NextRequest,context:Context) {
     if(!path.length || !namespaces.has(path[0]) || path.some(segment=>!/^[A-Za-z0-9_-]+$/.test(segment)) || path.includes("webhooks")) throw new ApiError(400,"This API path is not supported.");
     const mutation=!["GET","HEAD"].includes(request.method); if(mutation) checkOrigin(request);
     const id=request.cookies.get(sessionCookie)?.value; if(!id) throw new ApiError(401,"Please log in again.");
-    if(path[0]==="learning"||path[0]==="progress"&&["courses","lessons"].includes(path[1])){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(session.user.role!=="learner")throw new ApiError(403,"This learning action requires a learner account.");}
+    if(path[0]==="learning"||path[0]==="progress"||path[0]==="dashboards"&&path[1]==="learner"){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(session.user.role!=="learner")throw new ApiError(403,"This learning action requires a learner account.");}
     const type=request.headers.get("content-type")??"";
     if(mutation && Number(request.headers.get("content-length"))>26*1024*1024) throw new ApiError(413,"This upload is too large.");
     const headers=new Headers(); if(type) headers.set("Content-Type",type); headers.set("Accept",request.headers.get("accept")??"application/json");

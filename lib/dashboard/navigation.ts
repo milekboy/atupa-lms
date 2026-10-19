@@ -6,7 +6,7 @@ export const destinations:Destination[]=[
  {label:"Overview",href:"/dashboard",group:"Workspace",icon:"home",roles:everyone,implemented:true,keywords:["home","dashboard","welcome"]},
  {label:"My courses",href:"/dashboard/courses",group:"Learning",icon:"courses",roles:["learner"],implemented:true,keywords:["lessons","language"]},
  {label:"Quiz attempts",href:"/dashboard/quizzes",group:"Learning",icon:"assignments",roles:["learner"],implemented:true,keywords:["quiz","results","attempts"]},
- {label:"Progress",href:"/dashboard/progress",group:"Learning",icon:"progress",roles:["learner"],implemented:false,keywords:["points","badges"]},
+ {label:"Progress",href:"/dashboard/progress",group:"Learning",icon:"progress",roles:["learner"],implemented:true,keywords:["points","badges"]},
  {label:"My children",href:"/dashboard/children",group:"Family",icon:"children",roles:["parent"],implemented:false,keywords:["child","family"]},
  {label:"Classes",href:"/dashboard/classes",group:"Teaching",icon:"classes",roles:["teacher","school_admin"],implemented:false,keywords:["students"]},
  {label:"Assignments",href:"/dashboard/assignments",group:"Teaching",icon:"assignments",roles:["teacher","learner"],implemented:false,keywords:["work","review"]},

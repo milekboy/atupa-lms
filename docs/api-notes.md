@@ -126,3 +126,10 @@ Learner-only protected routes cover saved enrollments, course progress, lessons,
 Creation/submission POSTs are not automatically retried after ambiguous network/5xx outcomes. Named Web Locks and fresh attempt history reduce duplicate starts; safe GET history reconciles uncertain results. Answers remain in tab memory. This does not establish backend idempotency or active-attempt resume support.
 
 The saved quiz start has no authoritative deadline/remaining-time/server-clock fields, and no documented endpoint restores an active attempt's questions and answers. A consequential timer and reload resume remain blocked on contract clarification. Lesson media block schemas and additional P1 formats remain pending from Steps 8/9. No isolated live learner/staff accounts were available; synthetic prerequisite, entitlement, ownership, expiry and limit tests do not verify live backend policy. See step-10-review.md for the clarification draft and test checklist.
+
+
+## Step 11 learner overview and telemetry — 2026-10-19
+
+Overview uses GET /dashboards/learner only. Progress details independently request stats, badges, activity?limit=10 and quiz-results. All progress endpoints and dashboards/learner enforce learner role in the frontend proxy; backend remains responsible for ownership/policy. Resume uses GET /progress/continue plus PUT /progress/lessons/:id/position with progressPercent and lastBlockIndex. Reading percent is capped at 99 and completed lessons do not write. Position writes serialize per mounted reader, debounce and flush before completion; no revision/ETag is documented for cross-device conflicts.
+
+POST /progress/heartbeat increments documented seconds with no automatic ambiguous retry. Foreground/focus, recent input, monotonic bounded deltas and a single named Web Lock avoid ordinary hidden/idle/multiple-tab inflation. Unsupported Web Locks skips telemetry conservatively. This is not server enforcement and cannot arbitrate concurrent devices. Remaining live gates are recorded in step-11-review.md. Local fixtures preserve collection response shapes; stateful persistence and error rules are synthetic.
