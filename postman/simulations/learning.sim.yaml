@@ -1,0 +1,5 @@
+simulation: atupa-learning-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/learning.js

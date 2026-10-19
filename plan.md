@@ -15,7 +15,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 - Product sources: `C:/Users/User/Downloads/ATUPA LMS — PRD.pdf`, especially section 34, and `C:/Users/User/Downloads/ATUPA_LMS_User_Stories.docx`, especially P1 stories US-01 through US-16, US-18, and US-19.
 - API source: `C:/Users/User/Downloads/ATUPA LMS API.postman_collection.json`, containing 191 saved request examples across 20 folders. Examples and scripts are evidence of documented behavior, not a live verification report.
 - Visual references: the supplied ATUPA website screenshot and `C:/Users/User/OneDrive/Desktop/Bible plus v2/bibleplus-admin-v2/plan.md` plus its dashboard shell. BiblePlus endpoints, role names, blue colors, and domain features do not apply to ATUPA.
-- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production cookie-secret configuration and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
+- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production cookie-secret configuration and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
 
 ---
 
@@ -196,7 +196,7 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [x] Step 3 - Build production API transport, sessions, and authorization
 
-**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Redis was removed at the user's request on 2026-10-17; encrypted HttpOnly cookies now require SESSION_SECRET. Live backend revocation and staging-account verification remain release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 onward remain unstarted.
+**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Redis was removed at the user's request on 2026-10-17; encrypted HttpOnly cookies now require SESSION_SECRET. Live backend revocation and staging-account verification remain release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 onward remain unstarted.
 
 ## Requirements
 
@@ -304,6 +304,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 8 - Implement course, module, and lesson authoring
 
+**Status (2026-10-19):** Course studio implemented and checked with 27 contract tests, a five-scenario local HTTP lifecycle and browser checks. Live staff/ownership rules, full PATCH acceptance, order updates and image/audio/video lesson-block contracts remain verification gates; keep this step unchecked. See `docs/step-08-review.md`.
+
 ## Requirements
 
 - List and open authored content with `GET /authoring/courses` and `GET /authoring/courses/:courseId`; do not use the public outline as a substitute for editable draft content.
@@ -325,6 +327,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 9 - Implement activity and quiz authoring contracts
 
+**Status (2026-10-19):** Implemented multiple-choice practice plus multiple-choice, true/false and translation quiz authoring in Course studio, with settings, reload, updates and named deletion. Build/lint/TypeScript, 31 contract tests, ten local HTTP scenarios and browser/mobile checks passed. Keep unchecked pending missing P1 type examples, live full PATCH/ID semantics, scoring/association contracts and learner timer/attempt/review enforcement. See `docs/assessment-format-matrix.md` and `docs/step-09-review.md`.
+
 ## Requirements
 
 - Create activities with `POST /authoring/lessons/:lessonId/activities`; update/delete through `PATCH` and `DELETE /authoring/activities/:activityId`.
@@ -344,6 +348,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 ---
 
 # [ ] Step 10 - Complete learner lessons, practice, and quiz attempts
+
+**Status (2026-10-19):** Documented learner flow implemented: enrollment/progress, safe lesson reader and practice/completion, explicit quiz start/submission, saved history and permitted review. Production build, TypeScript, targeted lint, 35 contract tests and eight local HTTP scenarios passed; browser checks covered full course completion, uncertain submission reconciliation without a duplicate POST, retake limits and 320px layout. Timed deadline/active-attempt resume contracts, remaining media/P1 formats and live enforcement checks remain pending, so this step stays unchecked. See `docs/step-10-review.md`.
 
 ## Requirements
 

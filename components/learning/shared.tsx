@@ -1,0 +1,6 @@
+"use client";
+import {useEffect} from "react";
+import {ApiError} from "@/lib/api/contracts";
+export function learningError(e:unknown){return e instanceof ApiError?[e.message,...(e.errors??[])].join(" "):e instanceof Error?e.message:"Unable to load your learning space.";}
+export function useLeaveWarning(enabled:boolean){useEffect(()=>{if(!enabled)return;let leaving=false;const unload=(e:BeforeUnloadEvent)=>{if(!leaving)e.preventDefault();};const click=(e:MouseEvent)=>{const anchor=e.target instanceof Element?e.target.closest("a[href]"):null;if(!anchor||e.defaultPrevented||!(anchor instanceof HTMLAnchorElement)||anchor.target==="_blank"||anchor.href===location.href)return;e.preventDefault();if(window.confirm("Leave this attempt? Unsaved answers will be lost. Keep this tab open to finish your quiz.")){leaving=true;location.assign(anchor.href);}};window.addEventListener("beforeunload",unload);document.addEventListener("click",click,true);return()=>{window.removeEventListener("beforeunload",unload);document.removeEventListener("click",click,true);};},[enabled]);}
+export function quizLock<T>(key:string,action:()=>Promise<T>){return navigator.locks?navigator.locks.request(`atupa-quiz-${key}`,action):action();}

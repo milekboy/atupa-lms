@@ -1,0 +1,5 @@
+simulation: atupa-authoring-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/authoring.js

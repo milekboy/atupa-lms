@@ -1,15 +1,17 @@
 import type {Role} from "@/types/auth";
-export type Destination={label:string;href:string;group:string;icon:"home"|"account"|"courses"|"progress"|"children"|"classes"|"content"|"users"|"reports"|"assignments"|"schools"|"languages";roles:readonly Role[];implemented:boolean;keywords:string[]};
+export type Destination={label:string;href:string;group:string;icon:"home"|"account"|"courses"|"progress"|"children"|"classes"|"content"|"media"|"users"|"reports"|"assignments"|"schools"|"languages";roles:readonly Role[];implemented:boolean;keywords:string[]};
 const everyone:Role[]=["learner","parent","teacher","school_admin","content_creator","super_admin"];
 // Activate a destination only when its real page and permissions are implemented.
 export const destinations:Destination[]=[
  {label:"Overview",href:"/dashboard",group:"Workspace",icon:"home",roles:everyone,implemented:true,keywords:["home","dashboard","welcome"]},
- {label:"My courses",href:"/dashboard/courses",group:"Learning",icon:"courses",roles:["learner"],implemented:false,keywords:["lessons","language"]},
+ {label:"My courses",href:"/dashboard/courses",group:"Learning",icon:"courses",roles:["learner"],implemented:true,keywords:["lessons","language"]},
+ {label:"Quiz attempts",href:"/dashboard/quizzes",group:"Learning",icon:"assignments",roles:["learner"],implemented:true,keywords:["quiz","results","attempts"]},
  {label:"Progress",href:"/dashboard/progress",group:"Learning",icon:"progress",roles:["learner"],implemented:false,keywords:["points","badges"]},
  {label:"My children",href:"/dashboard/children",group:"Family",icon:"children",roles:["parent"],implemented:false,keywords:["child","family"]},
  {label:"Classes",href:"/dashboard/classes",group:"Teaching",icon:"classes",roles:["teacher","school_admin"],implemented:false,keywords:["students"]},
  {label:"Assignments",href:"/dashboard/assignments",group:"Teaching",icon:"assignments",roles:["teacher","learner"],implemented:false,keywords:["work","review"]},
- {label:"Content",href:"/dashboard/content",group:"Publishing",icon:"content",roles:["teacher","content_creator","super_admin"],implemented:false,keywords:["author","courses","lessons","cms"]},
+ {label:"Media library",href:"/dashboard/media",group:"Publishing",icon:"media",roles:["teacher","content_creator","super_admin"],implemented:true,keywords:["upload","images","audio","video"]},
+ {label:"Content",href:"/dashboard/content",group:"Publishing",icon:"content",roles:["teacher","content_creator","super_admin"],implemented:true,keywords:["author","courses","lessons","cms"]},
  {label:"School members",href:"/dashboard/members",group:"School",icon:"users",roles:["school_admin"],implemented:false,keywords:["teachers","learners"]},
  {label:"Users",href:"/dashboard/users",group:"Administration",icon:"users",roles:["super_admin"],implemented:false,keywords:["accounts"]},
  {label:"Schools",href:"/dashboard/schools",group:"Administration",icon:"schools",roles:["super_admin"],implemented:false,keywords:["school"]},

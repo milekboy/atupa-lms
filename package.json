@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts",
+    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts tests/media.test.ts tests/authoring.test.ts tests/assessments.test.ts tests/learning.test.ts",
     "test:session-http": "node --test tests/session-http.mjs",
     "simulate:auth": "postman simulation run postman/simulations/auth.sim.yaml --port 4900 --no-history --output ndjson",
     "dev:auth-test": "node scripts/start-auth-test.mjs",
@@ -15,7 +15,12 @@
     "test:catalog-http": "node --test tests/catalog-http.mjs",
     "test:catalog-failures": "node --test tests/catalog-failures.mjs",
     "simulate:catalog": "postman simulation run postman/simulations/catalog.sim.yaml --port 4900 --no-history --output ndjson",
-    "start:session-test": "node scripts/start-session-test.mjs"
+    "start:session-test": "node scripts/start-session-test.mjs",
+    "simulate:authoring": "postman simulation run postman/simulations/authoring.sim.yaml --port 4900 --no-history --output ndjson",
+    "test:authoring-http": "node --test tests/authoring-http.mjs",
+    "test:assessments-http": "node --test tests/assessments-http.mjs",
+    "simulate:learning": "postman simulation run postman/simulations/learning.sim.yaml --port 4900 --no-history --output ndjson",
+    "test:learning-http": "node --test tests/learning-http.mjs"
   },
   "dependencies": {
     "motion": "^14.3.0",

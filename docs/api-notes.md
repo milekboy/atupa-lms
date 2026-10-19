@@ -92,3 +92,37 @@ Registration (including nested school sessions), recovery/reset, restricted prof
 ## Step 6 public discovery (2026-10-17)
 
 Anonymous GET /languages, /courses and /courses/:courseId are live-verified. Twelve read-only requests confirmed active Yoruba, Igbo and Hausa, all nine language/level pathways and a premium outline. See `step-06-live-checks.json` and `step-06-review.md`. Frontend filters send languageCode, level, page and limit only. Two test-like Edo records remain in live active languages and have no matching courses; labels distinguish the codes. Advanced courses are premium. No entitlement response was tested, no lesson access is granted by catalog browsing, and G09/conditional payment scope remains open. Educational content quality is still unverified.
+
+
+## Step 7 media contract gates (2026-10-18)
+
+The staff media frontend is implemented, but live upload verification is blocked by the absence of isolated staff accounts (confirmed by the user). The saved confirmation request uses a placeholder publicId and returns 404; detail returns a list envelope rather than a media record; server upload returns `property file should not exist`. Request a successful image/audio/video upload, confirmation and detail response plus role/ownership/usage rules from the backend team. The current media record adapter is explicitly provisional; see `step-07-review.md`. Pagination query behavior also requires confirmation. No remote records were created or deleted. Published-lesson playback remains an integration gate for Steps 8/10.
+
+
+## Step 8 — authoring (2026-10-19)
+
+Course studio uses `/authoring/courses` and its answer-bearing course tree, never the public outline as editable content. The projection drops activities/quizzes/answers; writes explicitly allow only course/module/lesson fields, not ownership, status or order. Saved examples establish create shapes, description-only course PATCH, title-only module PATCH, summary-only lesson PATCH, publish/unpublish, child deletion and course `{archived:true}`. Sending all editable create fields on course/lesson PATCH remains an inferred DTO compatibility point, covered locally but requiring live verification.
+
+Only text and cultural_note blocks have demonstrated lesson write shapes. No image/audio/video lesson media field or order-update payload appears in the collection. New media attachments and reordering remain unavailable; unknown existing blocks retain their exact content and extra fields on save. The media library remains available separately. Language course type, children/all age groups and three launch languages are exposed from available examples; unfamiliar persisted values are preserved.
+
+No isolated live account was supplied. A local stateful Postman simulation exercises actual frontend HTTP transport and synthetic ownership/role failures, failure recovery, public draft hiding, separate publication, deletion and archival. These are local contract expectations, not evidence of live backend enforcement or school rules. Owner workspace mock discovery was skipped because no authenticated workspace binding was available in this task; no mocks were published and no shared backend content was changed. See `step-08-review.md`.
+
+
+## Step 9 — assessment authoring (2026-10-19)
+
+Course studio now includes staff-only activity/quiz authoring. Practice writes use demonstrated multiple-choice payload/solution/feedback; quizzes support the three demonstrated question types and documented settings. Existing quizzes load via GET `/authoring/quizzes/:id`; activities are read through the answer-bearing course tree. No activity GET or quiz publish endpoint is invented.
+
+Saved PATCH examples establish feedback-only activity updates and pass-score/attempt-only quiz updates. Full activity PATCH and question-array replacement remain inferred from create fields and must be confirmed live, including question-ID behavior. Known question writes omit response-only IDs and default points. Custom-weight or unfamiliar questions are read-only, with settings-only PATCH preserving their array. New quiz association uses demonstrated lessonId; course/module move/create semantics, order updates and timer-zero semantics await examples.
+
+Matching, fill-in-the-blank, drag-and-drop, word arrangement, listening, picture identification, flashcards, media-based and vocabulary-based P1 questions remain contract gaps, not approved scope reductions. `assessment-format-matrix.md` contains evidence and a backend clarification draft; nothing was sent to the team. Learner-side scoring, timing, attempts and review enforcement are not established by authoring or local mocks.
+
+Verification: 31 contract tests, ten HTTP scenarios through frontend/proxy to stateful Postman simulation, production build, TypeScript, targeted lint, browser create/save/reload, unsaved-change and 503 recovery, and 320px overflow check. Simulation logs showed 46 authoring requests in the inspected output. All accounts/data were synthetic; no live account, ownership or school-policy checks were performed.
+
+
+## Step 10 learner implementation — 2026-10-19
+
+Learner-only protected routes cover saved enrollments, course progress, lessons, practice and quiz attempts. The backend proxy allowlists lesson/start payloads to remove grading keys before browser delivery; review answers require explicit reviewAvailable. Public course outline projection retains published status so it remains valid when parsed again by the client. Practice uses the documented response string; quiz answers are an object keyed by question ID. Completion, progress and grades use server results.
+
+Creation/submission POSTs are not automatically retried after ambiguous network/5xx outcomes. Named Web Locks and fresh attempt history reduce duplicate starts; safe GET history reconciles uncertain results. Answers remain in tab memory. This does not establish backend idempotency or active-attempt resume support.
+
+The saved quiz start has no authoritative deadline/remaining-time/server-clock fields, and no documented endpoint restores an active attempt's questions and answers. A consequential timer and reload resume remain blocked on contract clarification. Lesson media block schemas and additional P1 formats remain pending from Steps 8/9. No isolated live learner/staff accounts were available; synthetic prerequisite, entitlement, ownership, expiry and limit tests do not verify live backend policy. See step-10-review.md for the clarification draft and test checklist.
