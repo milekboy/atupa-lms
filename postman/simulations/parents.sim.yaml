@@ -1,0 +1,5 @@
+simulation: atupa-parent-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/parents.js

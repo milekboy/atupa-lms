@@ -1,0 +1,5 @@
+simulation: atupa-school-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/schools.js

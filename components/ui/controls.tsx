@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { Children, isValidElement, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
+import {CustomSelect, type Choice} from "./custom-select";
 import { HiOutlineMagnifyingGlass, HiOutlineArrowPath } from "react-icons/hi2";
 
 export function Button({ children, variant = "primary", pending = false, disabled, className = "", type = "button", ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "secondary" | "ghost" | "danger"; pending?: boolean }) {
@@ -18,9 +19,12 @@ export function Input({ label, hint, error, id, ...props }: InputHTMLAttributes<
   const generated = useId(); const fieldId = id ?? generated;
   return <FieldFrame id={fieldId} label={label} hint={hint} error={error}><input {...props} id={fieldId} className={`input ${props.className ?? ""}`} aria-invalid={!!error || undefined} aria-describedby={describedBy(fieldId, hint, error, props["aria-describedby"])} /></FieldFrame>;
 }
-export function Select({ label, hint, error, id, children, ...props }: SelectHTMLAttributes<HTMLSelectElement> & Field) {
-  const generated = useId(); const fieldId = id ?? generated;
-  return <FieldFrame id={fieldId} label={label} hint={hint} error={error}><select {...props} id={fieldId} className={`input ${props.className ?? ""}`} aria-invalid={!!error || undefined} aria-describedby={describedBy(fieldId, hint, error, props["aria-describedby"])}>{children}</select></FieldFrame>;
+// Retains the established option/form API while rendering the shared custom control.
+function optionChoices(children:ReactNode):Choice[]{return Children.toArray(children).flatMap(child=>{if(!isValidElement<{value?:string|number;disabled?:boolean;children?:ReactNode}>(child))return [];if(child.type==='option')return [{value:String(child.props.value??Children.toArray(child.props.children).join('')),label:Children.toArray(child.props.children).join(''),disabled:child.props.disabled}];return optionChoices(child.props.children);});}
+export function Select({label,hint,error,children,value,defaultValue,name,disabled,required,onChange}:{label:string;hint?:string;error?:string;children:ReactNode;value?:string|number;defaultValue?:string|number;name?:string;disabled?:boolean;required?:boolean;onChange?:(event:{target:{value:string}})=>void}){
+ const choices=optionChoices(children),initial=String(defaultValue??choices[0]?.value??''),[local,setLocal]=useState({initial,value:initial}),root=useRef<HTMLDivElement>(null);
+ useEffect(()=>{const form=root.current?.closest('form');const reset=()=>setLocal({initial,value:initial});form?.addEventListener('reset',reset);return()=>form?.removeEventListener('reset',reset);},[initial]);
+ return <div ref={root}><CustomSelect label={label} hint={hint} error={error} name={name} value={String(value??(local.initial===initial?local.value:initial))} disabled={disabled} required={required} options={choices} onValueChange={next=>{setLocal({initial,value:next});onChange?.({target:{value:next}});}}/></div>;
 }
 export function Textarea({ label, hint, error, id, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & Field) {
   const generated = useId(); const fieldId = id ?? generated;

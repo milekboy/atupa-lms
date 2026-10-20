@@ -1,0 +1,5 @@
+simulation: atupa-free-launch-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/free-launch.js

@@ -15,7 +15,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 - Product sources: `C:/Users/User/Downloads/ATUPA LMS — PRD.pdf`, especially section 34, and `C:/Users/User/Downloads/ATUPA_LMS_User_Stories.docx`, especially P1 stories US-01 through US-16, US-18, and US-19.
 - API source: `C:/Users/User/Downloads/ATUPA LMS API.postman_collection.json`, containing 191 saved request examples across 20 folders. Examples and scripts are evidence of documented behavior, not a live verification report.
 - Visual references: the supplied ATUPA website screenshot and `C:/Users/User/OneDrive/Desktop/Bible plus v2/bibleplus-admin-v2/plan.md` plus its dashboard shell. BiblePlus endpoints, role names, blue colors, and domain features do not apply to ATUPA.
-- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production cookie-secret configuration and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 learner overview, detailed achievements, block position and foreground time tracking are implemented, pending live persistence/accounting checks (see `docs/step-11-review.md`); Step 12 vocabulary, cultural topics, GameCard challenges/history and QR tooling are implemented for documented contracts, with pronunciation assets, game handoff, printed-QR and live reward checks pending (see `docs/step-12-review.md`); Step 13 certificate lists/details, public verification and super-admin revocation are implemented, with automatic issuance, deployed complete QR/print and live authorization checks pending (see `docs/step-13-review.md`); Step 14 onward remain unstarted. Mark steps checked only when requirements and success criteria are met.
+- Step 1 contract documentation and public API verification are delivered; isolated-account and ownership-policy confirmation remains outstanding. Step 2 visual foundation is implemented and reviewed; see `docs/step-02-review.md`. Step 3 session/API foundation is implemented with local contract/HTTP verification; production cookie-secret configuration and real staging roles remain unverified. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 learner overview, detailed achievements, block position and foreground time tracking are implemented, pending live persistence/accounting checks (see `docs/step-11-review.md`); Step 12 vocabulary, cultural topics, GameCard challenges/history and QR tooling are implemented for documented contracts, with pronunciation assets, game handoff, printed-QR and live reward checks pending (see `docs/step-12-review.md`); Step 13 certificate lists/details, public verification and super-admin revocation are implemented, with automatic issuance, deployed complete QR/print and live authorization checks pending (see `docs/step-13-review.md`); Step 14 school/class/membership frontend is implemented for documented fields, with live role, teacher invitation/roster and new-member join checks pending (see `docs/step-14-review.md`); Step 15 written/lesson assignments, teacher overview and selected class/learner reports are implemented, with live permissions, learner-detail shape, automatic completion and remaining assignment/media formats pending (see `docs/step-15-review.md`); Step 16 parent linking, child monitoring and family updates are implemented with a custom child dropdown, pending live linkage/permission/notification and populated-feedback contracts (see `docs/step-16-review.md`); Step 17 administrator and library management is implemented for documented fields with custom dropdowns; real invitation delivery, permission scope and full update DTOs remain release checks (see `docs/step-17-review.md`). Step 18 notification inbox/count/actions and scoped learner/class/school reports are implemented with custom dropdowns and a loaded-page print layout; live permissions, aggregate reconciliation and print-output checks remain gates (see `docs/step-18-review.md`). Step 19 learner library search is implemented for demonstrated filters and result groups; US-17 is included by the user’s instruction to proceed, with live availability, publication/access checks and unsupported filter/language-hit contracts pending (see `docs/step-19-review.md`). Step 20 free-launch frontend guards/access review and Step 21 local integration QA/cleanup are implemented. Real-account/content/format/email/media/QR acceptance gates remain open; see `docs/step-20-review.md` and `docs/step-21-review.md`. Mark steps checked only when requirements and success criteria are met.
 
 ---
 
@@ -30,6 +30,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 - Keep backend feature data authoritative. Browser storage may retain UI preferences such as theme, but must not masquerade as saved courses, submissions, progress, permissions, or achievements.
 - Do not fabricate dashboard metrics, testimonials, activity records, certificates, game results, payment success, or unavailable features.
 - Every data page must have loading, empty, recoverable-error, permission-denied, and success states where applicable.
+- New dropdowns must use the accessible `CustomSelect` or an equivalent custom control; do not introduce native HTML `<select>` dropdowns in new work (user preference, 2026-10-20). Step 21 migrated the remaining native selector rendering to the shared custom control.
 - Every mutation needs pending state, duplicate-submission prevention, field errors where available, and concise success/failure feedback.
 - Require named confirmation for destructive or high-impact operations. Keep forms open and preserve input on recoverable failure.
 - Do not run the whole Postman collection against a shared environment as a smoke test: it creates accounts, changes content, and deletes records. Use isolated test accounts and data.
@@ -196,7 +197,7 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [x] Step 3 - Build production API transport, sessions, and authorization
 
-**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Redis was removed at the user's request on 2026-10-17; encrypted HttpOnly cookies now require SESSION_SECRET. Live backend revocation and staging-account verification remain release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 learner overview, detailed achievements, block position and foreground time tracking are implemented, pending live persistence/accounting checks (see `docs/step-11-review.md`); Step 12 vocabulary, cultural topics, GameCard challenges/history and QR tooling are implemented for documented contracts, with pronunciation assets, game handoff, printed-QR and live reward checks pending (see `docs/step-12-review.md`); Step 13 certificate lists/details, public verification and super-admin revocation are implemented, with automatic issuance, deployed complete QR/print and live authorization checks pending (see `docs/step-13-review.md`); Step 14 onward remain unstarted.
+**Status (2026-10-16):** Session/API foundation implemented and tested with six contract tests plus eight HTTP scenarios against local Postman simulation. Browser sign-in/reload/logout checked with synthetic fixtures. Redis was removed at the user's request on 2026-10-17; encrypted HttpOnly cookies now require SESSION_SECRET. Live backend revocation and staging-account verification remain release dependencies; see `docs/step-03-review.md`. Step 4 account UI is implemented and locally tested, awaiting real email/link verification; Step 5 shell is implemented; Step 6 public discovery is implemented; Step 7 media frontend is implemented with live upload, ownership, successful-record contract and published-lesson verification pending (see `docs/step-07-review.md`); Step 8 course/module/lesson authoring is implemented for documented text content, with live authorization, full update DTOs and lesson media blocks pending verification (see `docs/step-08-review.md`); Step 9 activity/quiz authoring is implemented for the demonstrated formats, with the remaining P1 format contracts and live enforcement pending (see `docs/step-09-review.md`); Step 10 learner enrollment, lessons, practice and quiz attempts are implemented for documented formats, with timed/resume contracts, remaining media formats and live checks pending (see `docs/step-10-review.md`); Step 11 learner overview, detailed achievements, block position and foreground time tracking are implemented, pending live persistence/accounting checks (see `docs/step-11-review.md`); Step 12 vocabulary, cultural topics, GameCard challenges/history and QR tooling are implemented for documented contracts, with pronunciation assets, game handoff, printed-QR and live reward checks pending (see `docs/step-12-review.md`); Step 13 certificate lists/details, public verification and super-admin revocation are implemented, with automatic issuance, deployed complete QR/print and live authorization checks pending (see `docs/step-13-review.md`); Step 14 school/class/membership frontend is implemented for documented fields, with live role, teacher invitation/roster and new-member join checks pending (see `docs/step-14-review.md`); Step 15 written/lesson assignments, teacher overview and selected class/learner reports are implemented, with live permissions, learner-detail shape, automatic completion and remaining assignment/media formats pending (see `docs/step-15-review.md`); Step 16 parent linking, child monitoring and family updates are implemented with a custom child dropdown, pending live linkage/permission/notification and populated-feedback contracts (see `docs/step-16-review.md`); Step 17 administrator and library management is implemented for documented fields with custom dropdowns; real invitation delivery, permission scope and full update DTOs remain release checks (see `docs/step-17-review.md`). Step 18 notification inbox/count/actions and scoped learner/class/school reports are implemented with custom dropdowns and a loaded-page print layout; live permissions, aggregate reconciliation and print-output checks remain gates (see `docs/step-18-review.md`). Step 19 learner library search is implemented for demonstrated filters and result groups; US-17 is included by the user’s instruction to proceed, with live availability, publication/access checks and unsupported filter/language-hit contracts pending (see `docs/step-19-review.md`). Step 20 free-launch frontend guards/access review and Step 21 local integration QA/cleanup are implemented. Real-account/content/format/email/media/QR acceptance gates remain open; see `docs/step-20-review.md` and `docs/step-21-review.md`.
 
 ## Requirements
 
@@ -438,6 +439,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 14 - Implement schools, classes, and membership workflows
 
+**Status (2026-10-20):** Frontend delivered: role-aware school/class navigation, class CRUD/archive and roster/course/teacher controls, learner join/leave, school privacy settings/codes and membership invitations/removal. Production build, targeted lint, 46 unit/contract tests and four local HTTP scenarios passed; teacher/admin and mobile browser checks used synthetic fixtures. Keep unchecked pending real ownership/cross-school enforcement, teacher roster/invitation contracts and email delivery, school-admin creation rules and successful live class join. See `docs/step-14-review.md`.
+
 ## Requirements
 
 - Load schools with `GET /schools/mine` and `/schools/:schoolId`; edit permitted details/settings with `PATCH /schools/:schoolId`.
@@ -460,6 +463,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 15 - Complete assignments and teacher workflows
 
+**Status (2026-10-20):** Documented assignment frontend delivered: class work creation/read/delete, learner start/written submission, teacher score/feedback/completion, lesson target selection, teacher metrics and class/learner report selectors. Production build/TypeScript, targeted lint, 50 unit/contract tests and six local HTTP scenarios passed; browser review covered teacher/learner submission-review and mobile. Keep unchecked pending live role/ownership enforcement, learner detail shape, automatic lesson completion, additional P1 assignment types and attachment contracts. See `docs/step-15-review.md`.
+
 ## Requirements
 
 - Create through `POST /assignments`, list learner work through `GET /assignments/mine`, read details through `GET /assignments/:assignmentId`, and list class work through `GET /assignments/classes/:classId`.
@@ -480,6 +485,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 16 - Implement parent linking and monitoring
 
+**Status (2026-10-20):** Documented parent frontend delivered: learner link-code generation/expiry, parent code linking/unlinking, multi-child overview and custom switcher, child progress/achievement panels and linked-child notification updates/read state. Production build/TypeScript, targeted lint, 54 contract tests and six local HTTP scenarios passed. Synthetic browser review covered linking, keyboard/typeahead selection, unlink clearing and mobile; no native dropdown was used on new screens. Keep unchecked pending live code/link authorization, actual notification delivery and populated teacher-feedback contract. See `docs/step-16-review.md`.
+
 ## Requirements
 
 - Generate a learner link code with `POST /parents/link-codes`; link through `POST /parents/children`, list with `GET /parents/children`, and unlink with `DELETE /parents/children/:learnerId`.
@@ -497,6 +504,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 ---
 
 # [ ] Step 17 - Complete administrator and content-creator management
+
+Implementation: frontend delivered 2026-10-20; local contract/HTTP/browser verification is recorded in `docs/step-17-review.md`. Checkbox remains open for live acceptance gates.
 
 ## Requirements
 
@@ -519,6 +528,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 18 - Implement notifications and basic reports
 
+Implementation: frontend delivered 2026-10-20; local contract/HTTP/browser evidence is recorded in `docs/step-18-review.md`. Checkbox remains open for live acceptance gates.
+
 ## Requirements
 
 - List notifications through `GET /notifications`, count unread through `GET /notifications/unread-count`, mark one/all read with `PATCH /notifications/:notificationId/read` and `/notifications/read-all`, and delete through `DELETE /notifications/:notificationId`.
@@ -539,6 +550,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 
 # [ ] Step 19 - Implement search and discovery if included in MVP
 
+Scope decision (2026-10-20): include search, following the user’s instruction to implement Step 19. Learner-workspace frontend is delivered; see `docs/step-19-review.md`. Live acceptance and unsupported P2 filter criteria remain open.
+
 ## Requirements
 
 - Record the US-17 scope decision. Course language/level browsing remains required regardless of full-search scope.
@@ -554,6 +567,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 ---
 
 # [ ] Step 20 - Resolve monetization scope and implement payments if required
+
+Status (2026-10-20): owner selected **free launch**. Individual payments excluded; school subscriptions phase 2. Frontend guards and super-admin access review implemented and locally verified (66 contract tests, 11 HTTP checks, focused lint and build passed). Live catalog: 10 courses, 3 advanced premium labels, 0 games. Required-content access with a real non-premium learner remains a release gate, so this step stays unchecked. See `docs/step-20-review.md`.
 
 ## Requirements
 
@@ -574,6 +589,8 @@ Frontend routes are proposed organization, not claims that matching backend endp
 ---
 
 # [ ] Step 21 - Complete integration QA, accessibility, and release readiness
+
+Status (2026-10-20): local QA/cleanup and release documentation implemented; 66 contract tests and 90 HTTP checks passed across 15 local simulation groups, with full lint/TypeScript/build passing. Remaining controls use custom dropdowns. Live six-role authorization, required content/formats, media/email/QR and owner acceptance remain essential gates; this step stays unchecked. See `docs/step-21-review.md` and the current verification inventory.
 
 ## Requirements
 

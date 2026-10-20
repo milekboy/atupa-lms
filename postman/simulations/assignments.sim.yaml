@@ -1,0 +1,5 @@
+simulation: atupa-assignment-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/assignments.js

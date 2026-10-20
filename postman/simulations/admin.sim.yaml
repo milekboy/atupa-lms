@@ -1,0 +1,5 @@
+simulation: atupa-admin-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/admin.js

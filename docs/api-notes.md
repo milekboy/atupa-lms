@@ -153,3 +153,65 @@ Public /certificates/verify/:code calls a dedicated anonymous no-store route thr
 Certificate printing uses verified backend fields and refuses non-valid status, a link for a different origin/code, a missing/truncated PNG payload or an image decode error. The saved QR is truncated and its URL is localhost, so deployed print/scanning remains pending. The accessible certificate sheet and A4 landscape stylesheet exist; actual complete-QR print preview, long record fitting and second-device scan require real data.
 
 Revocation sends only reason after exact visible certificate-ID confirmation. Ambiguous POST outcomes disable resubmission and use GET detail for reconciliation; a saved revoked status resolves uncertainty without another POST. Live idempotency/consistency and administrator scope remain backend verification gates. No live records were revoked.
+
+
+## Step 14 — 20 October 2026
+
+School/class frontend implemented and locally exercised; see `step-14-review.md`. Saved class creation is teacher-authenticated; member invitation demonstrates learner only; member list and `/schools/mine` use school-admin authentication. Teacher roster access, teacher invitation DTO/delivery, school-admin class creation and teacher/learner mine behavior remain unverified. Current UI uses the demonstrated member shape and known teacher/learner roles, surfaces backend denials/validation, and does not add privileged invitations. No school contact-field PATCH editor was guessed; demonstrated privacy settings are editable. Class join's saved example is 409 only; successful fixture joins are transport tests, not live contract proof. Verify cross-school ownership, archive and removal consequences, announcement recipients and invalidated join codes with isolated accounts before launch. The server proxy now rejects unsupported school/class operations and disallowed account roles while leaving resource authorization with the backend. This does not establish actual live grants.
+
+
+## Step 15 — 20 October 2026
+
+Written-work and lesson assignment UI plus teacher dashboard/reports are implemented and locally verified; see `step-15-review.md`. Saved creation/submission/review/delete uses teacher and learner tokens. School-admin/platform-admin assignment grants remain unverified. A learner detail response is not saved: the saved teacher detail is `assignment` plus `submissions`; learner mine is a paginated list of `assignment`/`submission` pairs. Confirm the live learner detail shape; the browser receives only the current learner's projected submission. Only `written_work` and `lesson` creation are demonstrated. Quiz/vocabulary/audio/game/cultural-research enum/target/submission contracts, resubmission policy, automatic lesson/quiz completion and submission upload permissions/DTOs remain gates. `mediaUrls` in responses does not establish a supported upload request. Existing safe HTTPS attachment links are viewable, but no upload contract was guessed. Live cross-school/class isolation, deletion effects, scoring/feedback persistence, active-student time windows and backend idempotency require isolated-account verification. Local Postman scenarios are not live evidence.
+
+
+## Step 16 — 20 October 2026
+
+Parent linking/monitoring frontend is implemented and locally verified; see `step-16-review.md`. The proxy checks the parent's current linked-child list before retrieving details and projects only needed child fields. Validate backend-side linkage authorization directly with isolated parents; frontend checks cannot prove upstream enforcement. Code expiry/reuse/re-link policy and actual parent event delivery/read ownership remain live gates. Parent notification examples show assignment and assignment-feedback events. Family updates only display currently linked children from the loaded inbox page, and preserve the inbox pagination meaning. The child dashboard saves `teacherFeedback: []` without a populated item contract; no speculative feedback-object fields are rendered. Existing authorized notification bodies can convey actual feedback. Verify populated dashboard feedback, achievement notifications, post-unlink history/privacy and cross-device freshness with the backend team.
+
+
+## Step 17 — administrator and publishing management (2026-10-20)
+
+Users support paginated `q` / `role` queries, detail by ID, creator-only invitation DTO `{email,role:"content_creator",firstName,lastName}`, and PATCH `{isActive}`. No role promotion, arbitrary permission editing or privileged public signup was added. Invitation acceptance/email delivery requires live verification.
+
+Schools support list/create `{name,region}`, detail, settings, documented `isActive=false` deactivation and deletion. A 409 for existing members remains visible; it never removes the school optimistically. Existing membership/settings screens are reused. Languages use the direct-array `/admin/languages` list, creation `{code,name,nativeName}`, and the demonstrated native-name PATCH by code. Language DELETE is not offered.
+
+Library studio uses paginated authoring lists plus demonstrated create/update/delete DTOs. Vocabulary updates pronunciation/exampleSentence; cultural topics update summary; games and GameCards update description. Richer updates are not assumed from GET shapes. New cultural content uses text blocks; games use the demonstrated web metadata; card challenges validate unique choices and an exact answer. GameCard PATCH/DELETE addresses the code, not the record ID. Vocabulary defaults to published and cards to active under the saved creation examples; the UI warns before creation.
+
+Super-admin scope is demonstrated in the collection. Creator publishing scope follows the product responsibility and remains a live permission-matrix gate; teacher library CRUD is not enabled. Existing staff QR retrieval remains available. The proxy bounds newly exposed admin/library routes and methods and continues to leave upstream ownership/authorization authoritative. Course authoring and certificates retain their existing editors. Admin overview uses only `/dashboards/admin` response totals, role/language breakdowns, completion, engagement and popular-course rows, with missing numbers shown as unavailable.
+
+Validation uses the local-only Postman admin simulation, adapted from the existing synthetic auth/school fixture and supplied saved management responses. No owner-published mock was available from earlier discovery. These are frontend transport checks against a stand-in, not proof of live backend permissions, persistence or email delivery. No live records were changed.
+
+
+## Step 18 — notifications and reports (2026-10-20)
+
+Notifications use paginated GET, `{count}` unread count, PATCH one/read-all and DELETE one. Read-all's `{updated}` result is not a new unread total: the UI refetches authoritative count and list. Header and inbox refresh from successful mutations (including the existing parent-page read action), drawer open and window focus; no realtime subscription is claimed. Parent privacy still hides unlinked-child list entries while account totals remain account-wide. Only known assignment/child identifiers can yield role-appropriate links; arbitrary URLs and unsupported notification types never generate destinations.
+
+Reports are read-only: learner self, linked parents, and permitted staff; classes for teacher/school/super admins; schools for school/super admins. School dashboard is used for the authenticated school admin without inventing a school-selection query. These intended scopes must still be checked against the direct backend. Parent report transport checks fresh children before forwarding. Requested report IDs must match returned IDs. Allowlist projections exclude quiz answers/private metadata while preserving existing class-report renderer compatibility. Direct backend authorization remains required for staff ownership/school scope and notification ownership.
+
+Learner report extends the saved dashboard with courseProgress, quizPerformance (including recent attempts) and gamePerformance. Class report adds assignment totals; school report includes studentEngagement, courseCompletion, averagePerformance and teacherActivity. Missing fields remain unavailable. Each report request has an independent error/retry state. Explicit 7/30-day labels come from the demonstrated metrics; other totals/lists do not get an invented date filter. The printable loaded-page view is not a server export or complete dataset export. Optional leaderboards, broadcasts, scheduling and CSV/PDF export endpoints were not added.
+
+Local validation uses the insights Postman simulation derived from existing synthetic auth/school/family fixtures and supplied saved response shapes. Earlier discovery found no reusable owner mock. These tests do not establish live delivery, permissions or aggregate accounting.
+
+
+## Step 19 — learner library search (2026-10-20)
+
+Scope: the user's instruction to proceed includes US-17 search in MVP. Saved search requests explicitly use noauth. The learner workspace invokes the shared frontend proxy, whose upstream `/search` read and course-outline reads are anonymous. This is a frontend placement choice aligned with the existing learner readers, not a claim that the backend search API requires learner authentication. Public course browsing remains unchanged.
+
+Supported query fields are q, types, languageCode and level. The demonstrated comma-separated type value is vocabulary,games,lessons; individual established tokens are offered too. No age group, course type, duration or server pagination was inferred. Search responses contain grouped arrays, not a verified global-total/paging contract. The unpopulated languages array is not guessed into a new result DTO; active language filtering remains supported.
+
+Server projections drop draft and unsafe records/metadata and generate destinations from validated IDs. Course/lesson entries are checked against anonymously accessible published outlines; lesson names are taken from the outline and lead to course/access pages. Bounded checks omit unverifiable entries with a partial-results notice rather than exposing their names or discarding unrelated groups. Backend entitlement/publication controls remain authoritative.
+
+The UI debounces, aborts superseded frontend requests, hides old matches while input changes, retains URL filters and handles empty/error/partial states. Counts mean shown matches only. Local Postman simulation/HTTP/browser checks establish frontend behavior against saved contract shapes and synthetic fixtures, not live backend search ranking, availability or authorization. Live anonymous reads were attempted separately with bounded timeouts; availability remains a release check. Full P2 filter coverage and populated language-hit examples remain contract dependencies.
+
+
+## Step 20 — free-launch decision (2026-10-20)
+
+The owner selected a free MVP. Individual checkout is excluded and school subscriptions remain phase 2. The frontend proxy rejects subscription checkout/verification; it does not grant or override backend entitlements. See `docs/step-20-review.md` for local evidence and scope. Live catalog reads returned 10 courses, with Hausa Advanced, Igbo Advanced and Yoruba Advanced premium-labelled; games returned 0. Required launch-course access still needs an isolated non-premium learner and approved backend access configuration. Provider checkout 503/IP allowlist, valid-reference verification and signed webhook tests remain deferred paid-scope gates.
+
+
+## Step 21 release evidence (2026-10-20)
+
+Full local quality checks and 15 Postman simulation groups pass; current workflow inventory is at the top of `verification-matrix.md`. This is frontend/contract evidence only. `step-21-review.md` consolidates live role/ownership, media attachment/provider, missing P1 formats, timed/idempotent learning, game/pronunciation assets, email delivery, certificate/QR and production acceptance gates. No missing contract was inferred to be a missing backend feature, no live records were mutated, and no essential requirement was waived. Remaining dropdowns use the shared custom component.
+
+Read-only live checks in Step 21: languages, courses and games each exceeded a 20-second client bound; search returned success. Earlier successful course/game counts remain a dated snapshot, not a current availability guarantee. No live mutations were attempted.

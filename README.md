@@ -1,56 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ATUPA LMS frontend
 
-## Getting Started
+A Next.js 16.4 / React 19 / TypeScript application for Nigerian language and cultural learning. The MVP launches **free** (owner decision, 20 October 2026); individual payments are excluded and school subscriptions remain phase 2. Frontend implementation does not constitute release acceptance: see [release readiness](docs/step-21-review.md) and [API gates](docs/api-notes.md).
 
-First, run the development server:
+## Run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Use Node.js 20.9+ and npm. Install the lockfile dependencies with `npm ci`. Copy `.env.example` to `.env.local`, configure the server-only values, then run `npm run dev` and open http://localhost:3000. For production, run `npm run build` then `npm start`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Variable | Responsibility |
+|---|---|
+| `API_BASE_URL` | Backend URL including `/api/v1` exactly once. Default is the supplied Render API. Browser requests use same-origin frontend routes; no public token/base variable is needed. |
+| `APP_ORIGIN` | Exact frontend origin, such as `https://atupa-lms.vercel.app`, without a path. Set the actual deployment origin for each environment. |
+| `SESSION_SECRET` | Stable cryptographically random secret, at least 32 characters, shared across instances of a deployment. Generate privately using the command in `.env.example`. Never commit its output. |
+| `API_TIMEOUT_MS` | Bounded upstream timeout; default 15000ms, maximum 20000ms. |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set these in Vercel's matching environment and redeploy after changes. Production requires HTTPS and a valid secret/origin. Redis is not used. Do not deploy synthetic test-server secrets or simulation URLs.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Routes and roles
 
-## Learn More
+Public routes include `/`, `/courses`, `/courses/:id`, `/login`, `/register`, `/register/school`, recovery/setup links and `/certificates/verify/:code`. `/scan/:code` continues into the authorized card flow.
 
-To learn more about Next.js, take a look at the following resources:
+| Role | Main workspace |
+|---|---|
+| Learner | My courses, lesson/practice/quiz attempts, progress, search, vocabulary, culture, GameCards/games, certificates, parent linking and assignments |
+| Parent | Linked children, learning summaries and notifications |
+| Teacher | Course/media authoring, classes, assignments, scoped reports and card QR tools |
+| School admin | School/members/classes and scoped school reports |
+| Content creator | Course/media and library publishing tools |
+| Super admin | User/school/language/library management, reports, certificate revocation and free-launch access review |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The exact route/role allowlists are in `lib/auth/roles.ts` and `lib/dashboard/navigation.ts`. Navigation visibility is not authorization. The server transport rejects unsupported operations; the backend must enforce ownership, school boundaries and entitlements on every resource. Existing UI supports demonstrated contracts only; the API notes identify remaining formats and permissions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Sessions and media
 
-## Deploy on Vercel
+Login stores access/refresh credentials in an AES-GCM encrypted HttpOnly cookie, Secure with `__Host-` prefix in production and SameSite=Lax. Tokens are never browser JSON or localStorage state. Same-origin mutation checks and a fixed upstream base protect the proxy. Web Locks coordinate same-origin refresh/logout. Backend expiry and revocation remain authoritative; a copied encrypted cookie cannot be centrally revoked by this stateless frontend. See [session details](docs/step-03-review.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Media supports validated image/audio/video selection and previews, signed direct upload/confirmation and a bounded multipart fallback (25 MB direct; 4 MB server fallback). Ambiguous confirmation can be retried without uploading again. Actual provider uploads, lesson attachment contracts and playback still need live acceptance; see [media review](docs/step-07-review.md).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Checks
 
+- `npm run lint` — full ESLint.
+- `npm run typecheck` — TypeScript, after generating Next types with a build on a fresh checkout.
+- `npm run test:contracts` — normalization, serialization, role and security contracts.
+- `npm run build` — production compilation and TypeScript.
+- `npm run test:integration` — after a build, runs existing local Postman simulations and the real production frontend on ports 4900/3100. Requires Postman CLI 1.70+ on PATH. Refuses occupied test ports and leaves port 3000 untouched. Logs go to a temporary directory printed by the runner. `npm run test:integration -- schools assignments` selects specific simulations.
 
-## Session foundation (Step 3)
+Simulation accounts and content are synthetic. These checks prove frontend behavior against the saved/expected contracts, not the deployed backend. Never run the entire supplied destructive Postman collection against shared data. Keep live test credentials outside the repository and use isolated accounts/records.
 
-See [session setup and test instructions](docs/step-03-review.md). Configure the server-only variables in `.env.example`; production requires SESSION_SECRET and APP_ORIGIN. Use `/login` for the session checkpoint and `/dashboard` to verify route protection. Registration, recovery and profile workflows are now available; the role-aware dashboard shell is implemented.
+## UI conventions and release
 
+Use the shared CustomSelect (or the option-compatible Select wrapper) for dropdowns, shared dialogs for focus restoration/trapping, server-authoritative rewards/completion, and explicit loading/empty/error states. Brand tokens and reduced-motion rules live in `app/globals.css`; retain long-language/diacritic support.
 
-## Account workflows (Step 4)
-
-See [review routes, test commands and outstanding email verification](docs/step-04-review.md). Registration is available at `/register` and `/register/school`, recovery at `/forgot-password`, and protected profile/security at `/dashboard/profile`. The local Next.js MCP diagnostics endpoint is disabled to avoid the observed development log/recompilation loop.
-
-## Public discovery (Step 6)
-
-The public homepage is `/`; browse `/courses` using languageCode, level and page URL parameters. Course outlines live at `/courses/[courseId]`. Data is loaded anonymously on the server through API_BASE_URL; no bearer tokens or authoring fields are sent to public clients. Premium flags are informational and do not grant lesson access. See [Step 6 review](docs/step-06-review.md) for evidence, manual checks and local Postman failure simulation instructions.
-
-Checks: `npm run test:contracts`, `npm run test:catalog-http` (normal server on 3000), `npm run test:catalog-failures` (opt-in local simulation and test server on 3100), `npm run lint`, `npm run build`.
-
-## Redis-free production sessions
-
-Set a cryptographically random `SESSION_SECRET` (at least 32 characters), `APP_ORIGIN` and `API_BASE_URL` in Vercel Production, then redeploy. Redis is no longer required. Generate the secret privately with `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"`; never commit its output. Changing the secret signs everyone out. See [session architecture and verification](docs/step-03-review.md).
+Before release, complete the real-account journeys, upload/email/QR checks, cross-account authorization, free-content access and product acceptance in [Step 21](docs/step-21-review.md). [Verification matrix](docs/verification-matrix.md) distinguishes historical collection examples, local simulation evidence and outstanding live checks. Do not mark the plan complete until essential gates have passed or the owner explicitly re-scopes them.

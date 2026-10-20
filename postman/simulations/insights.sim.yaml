@@ -1,0 +1,5 @@
+simulation: atupa-insights-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/insights.js

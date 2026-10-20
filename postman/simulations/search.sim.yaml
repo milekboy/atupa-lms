@@ -1,0 +1,5 @@
+simulation: atupa-search-contract
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/search.js

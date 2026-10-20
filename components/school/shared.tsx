@@ -1,0 +1,28 @@
+"use client";
+import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
+import {usePathname,useRouter,useSearchParams} from 'next/navigation';
+import {toast} from 'react-toastify';
+import {api} from '@/lib/api/client';
+import {ApiError} from '@/lib/api/contracts';
+import {Button,Select,ErrorState,Input,Modal,Pagination,Skeleton} from '@/components/ui';
+import {page,type Page} from '@/lib/school/contracts';
+export function errorText(e:unknown){return e instanceof ApiError?[e.message,...e.errors??[]].join(' · '):e instanceof Error?e.message:'Unable to complete this request.';}
+export function useResource<T>(path:string|null,parse:(v:unknown)=>T,revision=0){
+ const [result,setResult]=useState<{key:string;data:T|null;error:string}>({key:'',data:null,error:''});const [retry,setRetry]=useState(0);const key=`${path}:${revision}:${retry}`;
+ useEffect(()=>{if(!path)return;let live=true;const controller=new AbortController();api<unknown>(path,{signal:controller.signal}).then(parse).then(data=>{if(live)setResult({key,data,error:''});}).catch(e=>{if(live)setResult({key,data:null,error:errorText(e)});});return()=>{live=false;controller.abort();};},[path,parse,key]);
+ return {data:result.key===key?result.data:null,error:result.key===key?result.error:'',reload:()=>setRetry(v=>v+1)};
+}
+export function useQuery(){const params=useSearchParams(),router=useRouter(),path=usePathname();return {params,set:(changes:Record<string,string|null>)=>{const q=new URLSearchParams(params);for(const [key,value]of Object.entries(changes))if(value)q.set(key,value);else q.delete(key);router.push(path+(q.size?'?'+q:''));}};}
+export function ResourceState({error,reload,loading,children}:{error:string;reload:()=>void;loading:boolean;children:ReactNode}){return error?<ErrorState description={error} onRetry={reload}/>:loading?<Skeleton/>:<>{children}</>;}
+export function RecordPicker<T extends {id:string}>({path,parse,label,name,display,exclude=[]}:{path:string;parse:(v:unknown)=>T;label:string;name:string;display:(x:T)=>string;exclude?:string[]}){
+ const [number,setNumber]=useState(1),[selected,setSelected]=useState('');const parsePage=(v:unknown)=>page(v,parse);
+ // A stable parser prevents refetching after ordinary input changes.
+ const [parser]=useState(()=>parsePage);const {data,error,reload}=useResource<Page<T>>(`${path}${path.includes('?')?'&':'?'}page=${number}&limit=20`,parser);
+ return <div className="school-picker"><Select label={label} name={name} required disabled={!data||!!error} value={selected} onChange={e=>setSelected(e.target.value)}><option value="">Choose from this page</option>{data?.items.filter(x=>!exclude.includes(x.id)).map(x=><option key={x.id} value={x.id}>{display(x)}</option>)}</Select>{error?<ErrorState description={error} onRetry={reload}/>:!data?<p role="status">Loading choices…</p>:<>{!data.items.length&&<p className="muted">No eligible records on this page.</p>}<Pagination page={data.page} pageSize={data.limit} total={data.total} onPageChange={v=>{setSelected('');setNumber(v);}}/></>}</div>;
+}
+export type Operation={title:string;path:string;method:'POST'|'PATCH'|'DELETE';description?:string;confirm?:string;fields?:ReactNode;payload?:(f:Record<string,string>)=>unknown;success?:string};
+export function OperationDialog({operation,onClose,onDone}:{operation:Operation|null;onClose:()=>void;onDone:()=>void}){
+ const lock=useRef(false);const [pending,setPending]=useState(false),[error,setError]=useState(''),[uncertain,setUncertain]=useState(false);
+ async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(lock.current||uncertain||!operation)return;const f=Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string,string>;if(operation.confirm&&f.confirm!==operation.confirm){setError('Enter the exact name shown to confirm.');return;}let body;try{body=operation.payload?.(f);}catch(e){setError(errorText(e));return;}lock.current=true;setPending(true);setError('');try{await api(operation.path.endsWith('/courses/SELECTED')?operation.path.replace('/SELECTED','/'+String(f.courseId)):operation.path,{method:operation.method,...(body!==undefined&&!operation.path.endsWith('/courses/SELECTED')?{body:JSON.stringify(body)}:{})});toast.success(operation.success??'Changes saved.');if(operation.path.startsWith('/notifications'))window.dispatchEvent(new Event('atupa-notifications-changed'));onDone();onClose();}catch(e){setError(errorText(e));if(!(e instanceof ApiError)||e.status>=500){setUncertain(true);toast.warning('The result is unconfirmed. Refresh the records before trying again.');}else toast.error(errorText(e));}finally{lock.current=false;setPending(false);}}
+ return <Modal open={!!operation} onClose={onClose} busy={pending} title={operation?.title??''} description={operation?.description}><form className="school-form" onSubmit={submit}><fieldset disabled={pending||uncertain}>{operation?.fields}{operation?.confirm&&<Input label={`Type “${operation.confirm}” to confirm`} name="confirm" required autoComplete="off"/>}</fieldset>{error&&<p className="field-error" role="alert">{error}</p>}{uncertain&&<p role="alert">This request may have been recorded. Close this dialog and refresh the records to check the result before repeating it. Announcements and invitations may require confirmation from the recipient.</p>}<div className="button-row"><Button variant="secondary" disabled={pending} onClick={onClose}>Cancel</Button><Button type="submit" pending={pending} disabled={uncertain} variant={operation?.confirm?'danger':'primary'}>{operation?.title}</Button></div></form></Modal>;
+}

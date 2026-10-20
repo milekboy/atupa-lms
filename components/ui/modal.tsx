@@ -15,7 +15,7 @@ export function Modal({ open, onClose, title, description, children, footer, bus
   }, [open]);
   return <dialog ref={ref} className="modal" style={{position:"fixed",inset:"50% auto auto 50%",transform:"translate(-50%, -50%)",margin:0}} aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} aria-busy={busy || undefined} onKeyDown={e => {
     if (e.key !== "Tab") return;
-    const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]')).filter(item => item.getClientRects().length > 0);
+    const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled):not([type="hidden"]):not([tabindex="-1"]), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]')).filter(item => item.getClientRects().length > 0);
     const first = items[0]; const last = items[items.length - 1];
     if (!first) { e.preventDefault(); e.currentTarget.focus(); }
     else if (e.shiftKey && (document.activeElement === first || !e.currentTarget.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
