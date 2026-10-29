@@ -215,3 +215,8 @@ The owner selected a free MVP. Individual checkout is excluded and school subscr
 Full local quality checks and 15 Postman simulation groups pass; current workflow inventory is at the top of `verification-matrix.md`. This is frontend/contract evidence only. `step-21-review.md` consolidates live role/ownership, media attachment/provider, missing P1 formats, timed/idempotent learning, game/pronunciation assets, email delivery, certificate/QR and production acceptance gates. No missing contract was inferred to be a missing backend feature, no live records were mutated, and no essential requirement was waived. Remaining dropdowns use the shared custom component.
 
 Read-only live checks in Step 21: languages, courses and games each exceeded a 20-second client bound; search returned success. Earlier successful course/game counts remain a dated snapshot, not a current availability guarantee. No live mutations were attempted.
+
+
+## 29 October 2026 — updated lesson media and quiz handoff
+
+The new media collection documents playback objects, successful external-link lesson video/audio responses and mediaAssetId lesson attachment requests. These resolve the earlier missing lesson-media schema enough for frontend integration; actual uploaded-file persistence/permissions remain live checks. Frontend authoring, playback/retry and timed/resumed media quiz behavior are implemented; see `media-quiz-fixes-review.md`. The attachment contains no quiz response examples, so exact returned question types, timer fields and live expiry/randomization still need verification against the supplied backend handoff. No backend premium/permission checks were bypassed and no shared records were mutated.

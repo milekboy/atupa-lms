@@ -357,3 +357,16 @@ The rows above retain the Step 1 baseline. US-01 registration/validation/dashboa
 | Live content | 10 courses, 3 advanced premium labels; games empty | Read-only catalog, 2026-10-20; required-content access gate remains |
 
 66 contract tests, 11 focused integration checks, targeted lint and production build/TypeScript passed. See `docs/step-20-review.md`; Step 20 remains unchecked pending real required-content access.
+
+
+## Media/quiz QA update — 29 October 2026
+
+| Cases | Frontend implementation | Evidence / live limit |
+|---|---|---|
+| TC-05-001 | Safe lesson playback projection, ordered video/audio sources and poster; authoring asset selection | Supplied media examples + local HTTP/browser; uploaded live asset test pending |
+| TC-05-005 | Per-resource error/Retry, remaining lesson stays usable | Browser failed-source/fallback/retry test; deployed CDN/CORS pending |
+| TC-07-005/006 | Media-bearing choice question authoring/rendering and ID-keyed text answers | Handoff + local contracts/HTTP/browser; actual quiz response/type verification pending |
+| TC-07-010 | Monotonic countdown from remainingSeconds, one partial auto-submit, timedOut/expired UI | Local timer/HTTP/browser; live server expiry/grace acceptance pending |
+| TC-07-011 | Preserve attempt array order; start resumes same attempt; fresh order comes from server | Local resume/order scenarios; live backend randomization pending |
+
+See `media-quiz-fixes-review.md`. These additions supersede earlier statements that the frontend has no media attachment/playback controls; they do not waive remaining release acceptance.

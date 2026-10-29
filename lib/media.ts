@@ -1,11 +1,11 @@
 export type MediaKind = "image" | "audio" | "video";
-export type MediaItem = {id:string; kind:MediaKind; url:string; name:string};
+export type MediaItem = {id:string; kind:MediaKind; url:string; name:string; playback?:Playback|null};
 function record(value:unknown):Record<string,unknown>{return value!==null&&typeof value==="object"&&!Array.isArray(value)?value as Record<string,unknown>:{};}
 export function mediaItem(value:unknown):MediaItem {
   const v=record(value); const id=v.id??v._id; const kind=v.kind; const url=v.url??v.secureUrl;
   if(typeof id!=="string"||!id||!/^[\w-]+$/.test(id)||!["image","audio","video"].includes(String(kind))||typeof url!=="string")throw new Error("The API returned an unsupported media record. Please request its successful response contract.");
   const parsed=new URL(url); if(parsed.protocol!=="https:"||parsed.username||parsed.password)throw new Error("The media URL is not a secure preview URL.");
-  return {id,kind:kind as MediaKind,url:parsed.href,name:typeof v.originalName==="string"?v.originalName:typeof v.name==="string"?v.name:id};
+  return {id,kind:kind as MediaKind,url:parsed.href,playback:playback(v.playback??v),name:typeof v.originalName==="string"?v.originalName:typeof v.name==="string"?v.name:id};
 }
 export function mediaPage(value:unknown){const v=record(value);if(!Array.isArray(v.items)||!Number.isInteger(v.total)||!Number.isInteger(v.page)||!Number.isInteger(v.limit))throw new Error("The media list response is unsupported.");return {items:v.items.map(mediaItem),total:Number(v.total),page:Number(v.page),limit:Number(v.limit)};}
 export function validateFile(file:Pick<File,"type"|"size"|"name">):MediaKind{
@@ -25,3 +25,8 @@ export function directTicket(value:unknown):DirectTicket{
   if(!fields.signature||!fields.api_key||!fields.timestamp||fields.folder!==v.folder)throw new Error("The upload ticket is incomplete.");
   return {uploadUrl:url.href,fields,folder:v.folder};
 }
+
+export type Playback={id:string|null;kind:MediaKind;url:string;optimizedUrl:string;thumbnailUrl:string;sources:{src:string;type:string}[]};
+export function playbackUrl(v:unknown){if(typeof v!=="string"||v.length>4096)return "";try{const u=new URL(v);return (u.protocol==="https:"||u.protocol==="http:"&&["localhost","127.0.0.1"].includes(u.hostname))&&!u.username&&!u.password?u.href:"";}catch{return "";}}
+export function playback(value:unknown,fallback?:{kind:string;url?:unknown}):Playback|null{const v=record(value),kind=v.kind??fallback?.kind;if(!["image","audio","video"].includes(String(kind)))return null;const url=playbackUrl(v.url??fallback?.url),optimizedUrl=playbackUrl(v.optimizedUrl)||url;const sources=Array.isArray(v.sources)?v.sources.flatMap(raw=>{const x=record(raw),src=playbackUrl(x.src),type=typeof x.type==="string"?x.type:"";return src&&/^(video\/(mp4|webm|ogg|quicktime)|audio\/(mpeg|mp3|mp4|ogg|wav|aac|webm)|application\/(vnd\.apple\.mpegurl|x-mpegURL))$/i.test(type)?[{src,type}]:[];}):[];if(!optimizedUrl&&!sources.length)return null;return {id:typeof v.id==="string"&&/^[\w-]+$/.test(v.id)?v.id:null,kind:kind as MediaKind,url,optimizedUrl,thumbnailUrl:playbackUrl(v.thumbnailUrl),sources};}
+export function attachmentPayload(kind:string,assetId:unknown){if(!["image","audio","video"].includes(kind)||typeof assetId!=="string"||!/^[a-f0-9]{24}$/i.test(assetId))throw new Error("Choose a saved, matching media resource.");return {mediaAssetId:assetId};}

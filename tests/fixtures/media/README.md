@@ -1,0 +1,1 @@
+Local image and two-second tone generated for synthetic playback checks. flower.mp4 is the CC0 MDN sample from https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4 (downloaded 2026-10-29). No user media.

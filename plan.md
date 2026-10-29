@@ -658,3 +658,8 @@ These are verification/configuration/contract gates, not assertions that every l
 The MVP is complete when all required steps are checked, conditional steps have an explicit inclusion or deferral decision, included workflows operate on real backend data, the integration gates are resolved for the agreed scope, and Step 21 release checks pass.
 
 The intended delivery is a coherent ATUPA learning platform: a welcoming public website, focused mobile-first learning, role-aware dashboards inspired by BiblePlus, cream/forest-green branding, accessible interactions, reliable saved progress, and working school, teacher, parent, and administrator workflows. A visually complete placeholder does not count as completion.
+
+
+## Follow-up — 29 October 2026: lesson media and quiz QA
+
+Frontend fixes for TC-05-001/005 and TC-07-005/006/010/011 are implemented using the new media collection and backend handoff: media asset selection in lessons/multiple-choice questions, learner playback/error/retry, server-based remaining time with partial auto-submit, and same-attempt resume/order preservation. 71 contract tests and 31 focused HTTP checks passed. See `docs/media-quiz-fixes-review.md` for browser evidence and the remaining real-upload/quiz-response/live acceptance gates. No existing step is marked complete solely from simulated evidence.

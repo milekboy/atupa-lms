@@ -51,3 +51,6 @@ Simulation accounts and content are synthetic. These checks prove frontend behav
 Use the shared CustomSelect (or the option-compatible Select wrapper) for dropdowns, shared dialogs for focus restoration/trapping, server-authoritative rewards/completion, and explicit loading/empty/error states. Brand tokens and reduced-motion rules live in `app/globals.css`; retain long-language/diacritic support.
 
 Before release, complete the real-account journeys, upload/email/QR checks, cross-account authorization, free-content access and product acceptance in [Step 21](docs/step-21-review.md). [Verification matrix](docs/verification-matrix.md) distinguishes historical collection examples, local simulation evidence and outstanding live checks. Do not mark the plan complete until essential gates have passed or the owner explicitly re-scopes them.
+
+
+Lesson media attachments/playback, media-bearing multiple-choice questions and server-based quiz resume/timers are implemented. See [29 October media/quiz QA](docs/media-quiz-fixes-review.md) for test steps, source-format fallback and remaining live response/upload checks. Run `npm run test:integration -- media-learning` to repeat the isolated scenarios.

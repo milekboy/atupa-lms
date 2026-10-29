@@ -1,0 +1,5 @@
+simulation: atupa-media-learning
+routing: path
+mocks:
+  - routeKey: backend
+    path: ../mocks/media-learning.js
