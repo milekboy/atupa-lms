@@ -1,3 +1,7 @@
+# Current admin verification — 18 November 2026
+
+The new admin delivery evidence is in the [M-01–M-29 matrix](admin-implementation-matrix.md), [machine result](admin-local-evidence.json) and [Step 10 review](admin-step-10-review.md). The older LMS matrix below is retained as historical evidence. The current seven-role LMS/admin suite is locally regressed; no historical or synthetic result proves live backend acceptance. See the [remaining release gates](admin-release-acceptance.md).
+
 # Current verification status — Step 21 (20 October 2026)
 
 The original collection table below is historical contract evidence, not a statement that those operations have run live. The current implementation/evidence inventory is here; every row retains a live acceptance gate. Request fields are bounded by the corresponding `lib/*/contracts.ts` and HTTP regression files rather than accepting arbitrary backend fields. Full scenario details, expected errors and synthetic payloads are checked into `tests/*-http.mjs`.

@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "verificationDate": "2026-11-18",
+  "timezone": "Africa/Lagos",
+  "environment": "local-synthetic",
+  "startedAt": "2026-11-18T09:22:22.872Z",
+  "finishedAt": "2026-11-18T09:23:45.395Z",
+  "nodeVersion": "v26.13.1",
+  "sourceFingerprint": "a0ecb6d231dbd91ad3fbd39e6514495c3349d102eb9e123a37da7ddcdecb5a59",
+  "finalSourceFingerprint": "a0ecb6d231dbd91ad3fbd39e6514495c3349d102eb9e123a37da7ddcdecb5a59",
+  "buildId": "Aj3H29v7gG2P_BwoXRbPG",
+  "localChecksPassed": true,
+  "checks": [
+    {
+      "name": "lint",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "contracts",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "build",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "typecheck",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "http-regression",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "private-screenshot-fixture",
+      "passed": true,
+      "exitCode": 0
+    },
+    {
+      "name": "browser",
+      "passed": true,
+      "exitCode": 0
+    }
+  ],
+  "contracts": {
+    "tests": 123,
+    "passed": 123,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "httpRegression": {
+    "groupCount": 20,
+    "tests": 173,
+    "passed": 20,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "privateAttachments": false,
+    "groups": [
+      {
+        "mock": "admin",
+        "files": [
+          "admin-foundation-http",
+          "admin-users-http",
+          "admin-onboarding-http",
+          "admin-release-http",
+          "admin-http",
+          "dashboard-http"
+        ],
+        "tests": 34,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "atupa",
+        "files": [
+          "session-http",
+          "account-http"
+        ],
+        "tests": 17,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "public-session",
+        "files": [
+          "public-session-http"
+        ],
+        "tests": 1,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "catalog",
+        "files": [
+          "catalog-failures"
+        ],
+        "tests": 1,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "authoring",
+        "files": [
+          "authoring-http",
+          "assessments-http",
+          "admin-studio-http",
+          "admin-reviews-http"
+        ],
+        "tests": 27,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "finance",
+        "files": [
+          "admin-finance-http"
+        ],
+        "tests": 9,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "reporting",
+        "files": [
+          "admin-reporting-http"
+        ],
+        "tests": 6,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "trust",
+        "files": [
+          "admin-trust-http"
+        ],
+        "tests": 11,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "visibility",
+        "files": [
+          "admin-visibility-http"
+        ],
+        "tests": 9,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "learning",
+        "files": [
+          "learning-http"
+        ],
+        "tests": 9,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "progress",
+        "files": [
+          "progress-http"
+        ],
+        "tests": 1,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "media-learning",
+        "files": [
+          "media-learning-http"
+        ],
+        "tests": 7,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "discovery",
+        "files": [
+          "discovery-http"
+        ],
+        "tests": 5,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "certificates",
+        "files": [
+          "certificates-http"
+        ],
+        "tests": 5,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "schools",
+        "files": [
+          "schools-http"
+        ],
+        "tests": 5,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "assignments",
+        "files": [
+          "assignments-http"
+        ],
+        "tests": 7,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "parents",
+        "files": [
+          "parents-http"
+        ],
+        "tests": 7,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "insights",
+        "files": [
+          "insights-http"
+        ],
+        "tests": 5,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "search",
+        "files": [
+          "search-http"
+        ],
+        "tests": 5,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      {
+        "mock": "free-launch",
+        "files": [
+          "free-launch-http"
+        ],
+        "tests": 2,
+        "passed": true,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "exitCode": 0
+      }
+    ]
+  },
+  "privateAttachmentFixture": {
+    "tests": 11,
+    "passed": 1,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "environment": "local-synthetic only; real app setting unchanged"
+  },
+  "browser": {
+    "environment": "local-synthetic",
+    "startedAt": "2026-11-18T09:23:21.519Z",
+    "scenarios": [
+      {
+        "name": "four-console-roles-keyboard-and-return-query",
+        "mock": "admin",
+        "passed": true
+      },
+      {
+        "name": "school-and-teacher-class-scope",
+        "mock": "schools",
+        "passed": true
+      },
+      {
+        "name": "creator-preview-diacritics-and-teacher-ownership",
+        "mock": "authoring",
+        "passed": true
+      },
+      {
+        "name": "overview-files-errors-and-filter-parity",
+        "mock": "reporting",
+        "passed": true
+      },
+      {
+        "name": "mobile-parent-report-and-admin-safety-alert-audit",
+        "mock": "trust",
+        "passed": true
+      },
+      {
+        "name": "teacher-visibility-and-retained-learner-progress",
+        "mock": "visibility",
+        "passed": true
+      },
+      {
+        "name": "mobile-public-catalog-and-outline",
+        "mock": "catalog",
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "finishedAt": "2026-11-18T09:23:45.355Z",
+    "runtimeErrors": []
+  },
+  "frameworkSecurity": {
+    "installedNextVersion": "16.4.2",
+    "advisoryObserved": true,
+    "initialBuildExitCode": 1,
+    "retryBuildExitCode": 0,
+    "status": "FW-01 unresolved; successful retry does not resolve vulnerability",
+    "dependenciesChanged": false
+  },
+  "productionReleaseApproved": false,
+  "liveAcceptedRequirements": [],
+  "pendingRequirementAcceptance": [
+    "M-01",
+    "M-02",
+    "M-03",
+    "M-04",
+    "M-05",
+    "M-06",
+    "M-07",
+    "M-08",
+    "M-09",
+    "M-10",
+    "M-11",
+    "M-12",
+    "M-13",
+    "M-14",
+    "M-15",
+    "M-16",
+    "M-17",
+    "M-18",
+    "M-19",
+    "M-20",
+    "M-21",
+    "M-22",
+    "M-23",
+    "M-24",
+    "M-25",
+    "M-26",
+    "M-27",
+    "M-28",
+    "M-29"
+  ],
+  "unresolvedBackendGates": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12"
+  ],
+  "additionalReleaseBlockers": [
+    "FW-01"
+  ],
+  "ownerScopeWaiversRecorded": false,
+  "reproduce": "npm run test:admin-release (with installed Playwright/Chrome)",
+  "artifacts": "Raw logs, CSV/PDF and screenshots are in the temporary directory printed by the runner; regenerate on the current source when needed."
+}

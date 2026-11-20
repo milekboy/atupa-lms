@@ -1,3 +1,32 @@
+# Current Planning Update - Admin Platform (16 November 2026)
+
+The active admin delivery plan is [Admin Platform Delivery Plan](docs/admin-plan.md): exactly ten implementation steps with requirements, backend clarification/live gates and success criteria. Its [73-request API inventory](docs/admin-api-inventory.md) records the supplied collection without executing it.
+
+This update extends the existing LMS plan using the updated Admin Platform PRD and Admin console collection. The original 21-step plan below is retained as the implementation history and continuing learner/parent/teacher baseline. Earlier statements about absent admin endpoints or six roles must be read alongside this update; saved examples are not live acceptance.
+
+Step 1 frontend foundation is delivered: protected `/admin`, Support Admin recognition, safe permissions/menu mapping and local regression coverage. See [Step 1 review and what to test](docs/admin-step-01-review.md). Live C01/role/school acceptance remains open; no later admin step is marked complete.
+
+Step 8 supported overview, scoped reporting and file-download frontend is delivered with local regression verification. See [Step 8 review and what to test](docs/admin-step-08-review.md). C01/C08/C09, real file/dataset validation and the deployment performance benchmark remain open. Step 9 supported reporting/moderation, alerts and activity-log frontend is delivered with local verification; see [Step 9 review](docs/admin-step-09-review.md). Private screenshots, real notifications/effects, SLA and backend audit guarantees remain open. Step 10 local integration and release evidence is delivered; see [Step 10 review](docs/admin-step-10-review.md). Production approval remains blocked on the documented live/product acceptance gates.
+
+## New admin scope
+
+- Cover launch requirements M-01 through M-29: users, schools/classes, content, review, visibility, money, reports/exports, verification, safety and audit. Add the documented `support_admin` role alongside the existing six roles.
+- Keep Course → Module → Lesson → Activity/Assessment. Add independent publication/review and Private/School/Public audience controls, verified teacher identity, “By ATUPA” attribution and continued access for existing enrollees after a visibility restriction.
+- Reuse the current stack, sessions, proxy, design system and domain components. Preserve existing learning workflows; add learner/parent reporting and teacher verification/visibility surfaces required by the admin PRD.
+- Implement documented admin payment oversight, subscription grants/cancellation and S-01 editable plan tiers. The prior free learner launch stays in effect; payment activation and commercial pricing need a separate product decision. Other next-release/later suggestions are not silently included.
+
+## What can proceed now
+
+The collection supplies contracts for admin permissions/menu, overview, user overview/access links, teacher/school verification, lesson/library/public-visibility reviews, course visibility, CSV learner import, exports, plans/subscriptions/payment lists, safety reports, alerts and activity logs. Implement bounded frontend flows and local checks against demonstrated requests/descriptions; reconcile existing school/content/report APIs rather than replacing them with guessed endpoints.
+
+## What remains gated
+
+The ten-step plan's C01–C12 register covers full role grants/menu keys; destructive-action/restore safeguards; account versus verification approval; reorder/all eight question formats; revised uploads/private assets; ordinary course approval and review exceptions; 24h safety SLA inconsistencies; dashboard metric definitions; complete real export contracts; refund/entitlement semantics; audit retention/capture; and bulk-import operational limits. These are clarification or acceptance gaps, not assertions that backend features do not exist.
+
+Do not mark PRD features or release acceptance complete from collection examples or local simulations. Audit/server authorization must precede sensitive operations, and verification/review plus live safety reporting must precede new Public course rollout. See the linked plan for per-step acceptance and sequencing.
+
+---
+
 # ATUPA LMS - MVP Functionality Completion Plan
 
 ## Goal
@@ -10,7 +39,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 
 # Current State and Source of Truth
 
-- Project: `C:/Users/User/OneDrive/Desktop/Atupa LMS/atupa-lms`.
+- Current project: `/Users/lapo/Desktop/Atupa LMS/atupa-lms`. Earlier Windows paths below identify historical source locations.
 - Installed foundation: Next.js 16.4.2, React 19.3.0, TypeScript, Tailwind CSS 4, ESLint, and npm lockfile. Public homepage, course browsing and outlines are implemented.
 - Product sources: `C:/Users/User/Downloads/ATUPA LMS — PRD.pdf`, especially section 34, and `C:/Users/User/Downloads/ATUPA_LMS_User_Stories.docx`, especially P1 stories US-01 through US-16, US-18, and US-19.
 - API source: `C:/Users/User/Downloads/ATUPA LMS API.postman_collection.json`, containing 191 saved request examples across 20 folders. Examples and scripts are evidence of documented behavior, not a live verification report.
@@ -23,7 +52,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 
 - Keep the existing Next.js App Router, TypeScript, Tailwind CSS, and npm setup. Read relevant guides in `node_modules/next/dist/docs/` before writing code, as required by `AGENTS.md`.
 - Add React Icons, React Toastify, and `motion` when implementing the shared foundation. These packages are now installed. Import animation primitives from `motion/react`.
-- Use the exact backend roles: `learner`, `parent`, `teacher`, `school_admin`, `content_creator`, and `super_admin`. Verify each endpoint's allowed roles rather than assuming all staff have equal access.
+- Use the exact backend roles: `learner`, `parent`, `teacher`, `school_admin`, `content_creator`, `super_admin`, and the new admin collection’s `support_admin`. Verify each endpoint's allowed roles rather than assuming all staff have equal access.
 - Use a server-only `API_BASE_URL` for backend transport, defaulted in `.env.example` to `https://atupa-lms-backend.onrender.com/api/v1`. Paths below are relative to this base. Never generate `/api/v1/api/v1/...`.
 - Keep access and refresh tokens server-side in protected session cookies or an equivalent server session. Never put tokens in localStorage, sessionStorage, rendered HTML, URLs, or logs.
 - Route protected requests through one shared server transport/proxy that injects the Bearer token. Browser components should use same-origin application endpoints.
@@ -36,7 +65,7 @@ Use the BiblePlus V2 plan and dashboard structure as the implementation referenc
 - Do not run the whole Postman collection against a shared environment as a smoke test: it creates accounts, changes content, and deletes records. Use isolated test accounts and data.
 - Missing contracts and failed integrations belong in `docs/api-notes.md`; do not hide them behind dummy implementations.
 - The PRD's phase 2 features are excluded: live classes, AI tutoring, automated pronunciation assessment, advanced analytics/gamification, native mobile apps, and additional language rollout.
-- Search US-17 is P2 and payments US-20 require scope confirmation. They have conditional steps below and must not silently expand the required MVP.
+- Search US-17 was included on 20 October 2026. Learner payments remain excluded by the free-launch decision. The 16 November admin extension includes payment oversight, manual subscriptions and editable plan tiers without activating learner checkout.
 
 ---
 
@@ -663,3 +692,33 @@ The intended delivery is a coherent ATUPA learning platform: a welcoming public 
 ## Follow-up — 29 October 2026: lesson media and quiz QA
 
 Frontend fixes for TC-05-001/005 and TC-07-005/006/010/011 are implemented using the new media collection and backend handoff: media asset selection in lessons/multiple-choice questions, learner playback/error/retry, server-based remaining time with partial auto-submit, and same-attempt resume/order preservation. 71 contract tests and 31 focused HTTP checks passed. See `docs/media-quiz-fixes-review.md` for browser evidence and the remaining real-upload/quiz-response/live acceptance gates. No existing step is marked complete solely from simulated evidence.
+
+
+## Admin Step 2 update — 16 November 2026
+
+User invitations and management are available at `/admin/users`; teacher/school verification is at `/admin/verifications` and self-submission at `/dashboard/verification`. See [Step 2 review and what to test](docs/admin-step-02-review.md). Existing Super Admin access is required to invite staff; initial bootstrap and live email delivery remain backend responsibilities. Role/deactivation/delete safeguards and private document previews remain clarification gates. Existing LMS workflows are preserved.
+
+
+## Admin Step 3 update — 17 November 2026
+
+Super Admin school/class onboarding and validated bulk learner invitations are available at `/admin/onboarding`, linked from Admin console → Users. Existing school/member/class/course workspaces are reused. Class creation supports teacher selection; bulk imports use the actual CSV template, a required dry run and an explicit confirmed save. CSV is conservatively limited to 512 KB pending C12. See [Step 3 review and what to test](docs/admin-step-03-review.md). Live grants, school membership semantics, atomic imports, audit and delivered setup emails remain acceptance gates.
+
+
+## Admin Step 4 update — 17 November 2026
+
+The existing Course studio now preserves audience/owner/review metadata, linked vocabulary and media-block extension fields; supports lesson-block movement and protected saved-lesson preview with the shared learner renderer; and reports returned review status accurately. Existing media/library/assessment/GameCard tools are reused. Admin home links authorized publishers to those workspaces. See [Step 4 review and what to test](docs/admin-step-04-review.md). Complete formats, hierarchy reorder, larger upload limits and review/access policies remain C01/C04/C05/C06 gates; existing LMS journeys are preserved.
+
+
+## Admin Step 5 update — 17 November 2026
+
+Super Admin content review is available at `/admin/reviews` from console home. It shows returned queue groups/totals and supports documented lesson, library and Public-visibility decisions with comments, confirmation, fresh pending-state checks and known self-review denial. Library tools show actual returned review status/feedback. Ordinary course approval, unsupported kinds and incomplete queue identities remain unavailable pending C01/C06. See [Step 5 review and what to test](docs/admin-step-05-review.md); backend atomic authorization, audit, notification and publication-policy acceptance remain open.
+
+
+## Admin Step 6 update — 17 November 2026
+
+Teachers can change owned course audiences or request reviewed Public visibility from Course studio. Super Admin oversight is at `/admin/courses`, with reason-backed Private/School changes; direct Public overrides await C06 clarification. Catalog/search attribution uses actual backend identity flags. Public-only projections are separated from authenticated course projections to preserve authorized prior enrollment and progress. See [Step 6 review and what to test](docs/admin-step-06-review.md); real grants, school scope, notifications, retained access and Public policy remain C01/C06 acceptance gates.
+
+
+## Admin Step 7 update — 17 November 2026
+
+Super Admin financial oversight is at `/admin/finance`: read-only payments, documented subscription grants/cancellations and plan creation. Prices use integer kobo; learner checkout remains disabled. Price/active-state edits are guarded for feature-bearing plans because the supplied price-only PATCH response clears features; empty-feature plans support verified updates. See [Step 7 review and what to test](docs/admin-step-07-review.md). Feature-preserving DTOs, real entitlement/cancellation/school behavior, grant reconciliation and audit evidence remain C01/C10 gates.

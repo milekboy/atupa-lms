@@ -5,6 +5,6 @@ export function proxy(request:NextRequest) {
     const login=new URL("/login",request.url);login.searchParams.set("returnTo",request.nextUrl.pathname+request.nextUrl.search);return NextResponse.redirect(login);
   }
   // Optimistic cookie check only. Every dashboard page must call requireUser before data access.
-  const headers=new Headers(request.headers);headers.set("x-atupa-path",request.nextUrl.pathname);return NextResponse.next({request:{headers}});
+  const headers=new Headers(request.headers);headers.set("x-atupa-path",request.nextUrl.pathname);headers.set("x-atupa-return-to",request.nextUrl.pathname+request.nextUrl.search);return NextResponse.next({request:{headers}});
 }
-export const config={matcher:["/dashboard/:path*"]};
+export const config={matcher:["/dashboard/:path*","/admin/:path*"]};

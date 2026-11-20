@@ -1,10 +1,11 @@
+import type {CourseCredits} from '../catalog/credits';
 import {ApiError,object} from '../api/contracts';
 import {identifier} from '../school/contracts';
 export const typeOptions=[{value:'',label:'All content'},{value:'lessons',label:'Lessons'},{value:'vocabulary',label:'Vocabulary'},{value:'games',label:'Games'},{value:'vocabulary,games,lessons',label:'Words, games & lessons'}];
 export type Query={q:string;types:string;languageCode:string;level:string};
 export const groups=['courses','lessons','vocabulary','culturalTopics','games'] as const;
 export type Group=typeof groups[number];
-export type Match={id:string;title:string;description:string;languageCode:string;level:string;courseId:string;courseTitle:string;href:string;premium:boolean};
+export type Match=CourseCredits&{id:string;title:string;description:string;languageCode:string;level:string;courseId:string;courseTitle:string;href:string;premium:boolean};
 const text=(v:unknown)=>typeof v==='string'?v:'';
 export function query(params:URLSearchParams):Query{for(const k of params.keys())if(!['q','types','languageCode','level'].includes(k)||params.getAll(k).length!==1)throw new ApiError(400,'Choose a supported search filter.');const q=(params.get('q')??'').trim(),types=params.get('types')??'',languageCode=params.get('languageCode')??'',level=params.get('level')??'';if(q.length<2||q.length>120)throw new ApiError(400,'Enter between 2 and 120 characters.');if(!typeOptions.some(o=>o.value===types)||languageCode&&!/^[a-z0-9_-]{1,40}$/.test(languageCode)||level&&!['beginner','intermediate','advanced'].includes(level))throw new ApiError(400,'Choose a valid content type, language or level.');return {q,types,languageCode,level};}
 export function parameters(q:Query){return new URLSearchParams(Object.entries(q).filter(([,v])=>!!v));}

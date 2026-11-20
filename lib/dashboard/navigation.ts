@@ -1,8 +1,10 @@
 import type {Role} from "@/types/auth";
 export type Destination={label:string;href:string;group:string;icon:"search"|"notifications"|"home"|"account"|"courses"|"progress"|"children"|"classes"|"content"|"media"|"users"|"reports"|"assignments"|"schools"|"languages"|"vocabulary"|"culture"|"gamecards"|"games"|"certificates";roles:readonly Role[];implemented:boolean;keywords:string[]};
-const everyone:Role[]=["learner","parent","teacher","school_admin","content_creator","super_admin"];
+const everyone:Role[]=["learner","parent","teacher","school_admin","content_creator","super_admin","support_admin"];
 // Activate a destination only when its real page and permissions are implemented.
 export const destinations:Destination[]=[
+ {label:"Report a concern",href:"/dashboard/safety",group:"Personal",icon:"reports",roles:["learner","parent"],implemented:true,keywords:["safety","report","concern"]},
+ {label:"Admin console",href:"/admin",group:"Administration",icon:"home",roles:["super_admin","support_admin","content_creator","school_admin"],implemented:true,keywords:["console","admin"]},
  {label:"Overview",href:"/dashboard",group:"Workspace",icon:"home",roles:everyone,implemented:true,keywords:["home","dashboard","welcome"]},
  {label:"My courses",href:"/dashboard/courses",group:"Learning",icon:"courses",roles:["learner"],implemented:true,keywords:["lessons","language"]},
  {label:"Quiz attempts",href:"/dashboard/quizzes",group:"Learning",icon:"assignments",roles:["learner"],implemented:true,keywords:["quiz","results","attempts"]},
@@ -33,13 +35,14 @@ export const destinations:Destination[]=[
 ];
 export function navigationFor(role:Role){return destinations.filter(item=>item.implemented&&item.roles.includes(role)).map(item=>role==="learner"&&item.group==="Teaching"?{...item,group:"Learning"}:item);}
 export function searchNavigation(role:Role,query:string){const q=query.trim().toLocaleLowerCase();return navigationFor(role).filter(item=>!q||`${item.label} ${item.group} ${item.keywords.join(" ")}`.toLocaleLowerCase().includes(q));}
-export function isActive(path:string,href:string){return href==="/dashboard"?path===href:path===href||path.startsWith(href+"/");}
-export const roleNames:Record<Role,string>={learner:"Learner",parent:"Parent",teacher:"Teacher",school_admin:"School administrator",content_creator:"Content creator",super_admin:"Platform administrator"};
+export function isActive(path:string,href:string){return href==="/dashboard"||href==="/admin"?path===href:path===href||path.startsWith(href+"/");}
+export const roleNames:Record<Role,string>={learner:"Learner",parent:"Parent",teacher:"Teacher",school_admin:"School administrator",content_creator:"Content creator",support_admin:"Support administrator",super_admin:"Platform administrator"};
 export const roleIntroductions:Record<Role,{title:string;description:string;eyebrow:string}>={
  learner:{title:"A little learning. A deeper connection.",description:"Make space for the languages, stories and traditions that connect us.",eyebrow:"Your learning space"},
  parent:{title:"Grow their connection to home.",description:"Support your child's journey through Nigerian languages and culture.",eyebrow:"Your family space"},
  teacher:{title:"Bring culture into the classroom.",description:"Help every learner find their voice through language, practice and play.",eyebrow:"Your teaching space"},
  school_admin:{title:"A connected school. A shared heritage.",description:"Bring your school community together around meaningful language learning.",eyebrow:"Your school workspace"},
  content_creator:{title:"Every lesson carries a story.",description:"Create thoughtful learning experiences that bring Nigerian language and culture to life.",eyebrow:"Your publishing workspace"},
+ support_admin:{title:"Support learning, every day.",description:"Open the admin console to access your assigned tools.",eyebrow:"Your support workspace"},
  super_admin:{title:"One platform. Many possibilities.",description:"Support the people and learning experiences at the heart of ATUPA.",eyebrow:"Your administration workspace"},
 };

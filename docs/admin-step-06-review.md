@@ -1,0 +1,42 @@
+# Admin Step 6 — Course visibility and learner access
+
+Date: 17 November 2026 (Africa/Lagos).
+
+## Delivery status
+
+Supported frontend delivered with isolated verification. Step 6 remains unchecked for C01/C06 and real backend role/school/verification, retained-access, teacher-notification and publication-policy acceptance. No live course audience, enrollment or progress was changed during implementation. The plan's safety/review prerequisites still govern a real Public rollout.
+
+## Implemented
+
+- Teachers have a separate Change audience control in Course studio. Private/School changes use PATCH `/authoring/courses/:id/visibility`. Public sends a review request, with current visibility and `publicRequest.status` displayed separately. Content publication and editable course payloads remain independent.
+- New same-origin console endpoints read a fresh `/users/me` profile. Teacher changes additionally read the existing authoring course tree, require current ownership and `ownerType=teacher`, and require actual verified status for Public. School changes require a course/current-profile school match. Missing visibility/ownership/verification information fails closed; no default Private value is invented for legacy responses. New course creation retains the existing payload and the backend's documented Private default.
+- A Public request from a non-public course is accepted by the frontend only when the response retains the current audience and returns a pending request. Unexpected publication changes or mismatched course/results become unconfirmed outcomes requiring refresh. A timeout locks the current form and refreshes saved state before another request. The existing generic proxy cannot forward this dedicated authoring visibility operation around the new bounded controls.
+- `/admin/courses` lists paginated courses with documented audience/owner filters, publication, audience, author/ATUPA credit and pending requests. Super Admin uses a required reason and title confirmation to make courses Private or School. Current grant checks conservatively use documented `users.view`/`users.manage` pending C01. The reason is forwarded to the backend for teacher notification; the frontend does not fabricate notification delivery.
+- Direct admin Public overrides are withheld because the collection demonstrates only a restriction and the second-person/bypass policy is unresolved. Public approval uses Step 5's existing review endpoint. Platform/creator visibility transitions and exact override coverage remain C06 gates; they are not inferred from role names or owner-type strings.
+- Public catalog cards, outlines, verified search course results and signed-in course outlines show `By ATUPA` only for actual `byAtupa=true`, and verified-author labels only for explicit valid author identity/verification fields. No trust is inferred from role or owner type. Public credit projections exclude author email, tokens, reviews and ownership internals. The owner filter offers the documented Teacher option rather than guessing platform-owner enum values.
+- Public course/outline normalization rejects explicitly non-public courses. Search still verifies course/lesson hits against an unauthenticated published outline, so restricted results are discarded even when an upstream search result contains them. Legacy public-only API records without the new audience field remain compatible; full new-backend audience coverage needs live acceptance.
+- Authenticated course reads use a separate published-course projection after backend authorization. CourseLearning uses that projection too, preserving private/school access when the backend permits an enrolled/class/school learner. My courses, lesson authorization, progress, grading, enrollment and entitlement enforcement remain backend-owned. No audience change triggers frontend unenrollment or progress reset.
+
+## Verification
+
+- 101 contract tests pass, including bounded role/payload/filter rules, verified-teacher gating, public versus authenticated outline separation, credit truthfulness/privacy and legacy compatibility.
+- 144 HTTP checks across 17 isolated admin/LMS groups pass. The dedicated visibility fixture verifies Private assigned-class access, School membership/removal, unverified/other-owner denial, Public request → review approval, badges, admin reasons/permissions/CSRF, uncertain writes, unrelated-learner denial and public-search filtering.
+- The retained-access scenario enrolls a learner while Public, records 50% progress, makes the course Private as Super Admin and verifies the learner still has the authorized outline, lesson, enrollment and saved progress. Another learner cannot discover, read or enroll. A synthetic notification contains the actual submitted admin reason.
+- Browser checks exercised teacher Public request, Super Admin review, actual public badge rendering, learner enrollment, admin restriction and retained 50% progress/lesson access, outsider denial, URL filters, custom dropdowns and tablet/light/dark layouts. Existing learning, assessment, school, parent, media, admin review and onboarding regressions pass. Local test servers were stopped afterwards.
+- Lint and production build pass. The normal build initially stopped after compilation/type-checking on the known Next.js security advisory; the instructed retry succeeded with the warning. These are local contract simulations, not certification of deployed access or notification policy. The existing framework security advisory remains a separate release follow-up.
+
+## What to test
+
+1. As a teacher, open Course studio → Open course → Change audience. Save Private and School on an eligible owned school course, then reload. Confirm publication is unchanged. Another teacher must be denied; a course outside the current school must not be switched to School.
+2. As an unverified teacher, confirm Public is unavailable and a direct request is denied. Verify credentials, refresh verification, then request Public. The current audience must remain unchanged with a pending request until a different Super Admin approves it in Content review queue.
+3. Check the approved course in public browsing and search. Confirm author name, Verified author and By ATUPA badges follow actual backend fields. A private/unapproved course must not leak through catalog, search or a public outline URL.
+4. Enroll an isolated learner while the course is Public and record progress. As Super Admin, open Admin console → Course visibility, select Make Private, enter a reason and confirm the title. Verify the teacher receives the actual reason. Confirm publication stays the same.
+5. Reload the enrolled learner's My courses, course outline and lesson; verify access and progress persist. With a different, unrelated learner, check public discovery, direct outline, enrollment and lesson requests are denied. Separately verify assigned-class and School audience rules and membership-removal behavior.
+6. Check filters/pagination/reload, missing-grant/read-only access, unsupported roles and interrupted-save recovery. Recheck existing quizzes, teacher classes, school membership, parent views, admin invitations/reviews and bulk onboarding. Test laptop/tablet light/dark layouts.
+
+## Remaining backend clarification / live gates
+
+- C01: exact content visibility read/write grants, complete menus, teacher permission/verification fields, school ownership/membership authorization and production cross-record denials. The current documented user grants are conservative compatibility gates, not a confirmed full content-permission vocabulary.
+- C06: creator/platform audience controls, direct admin Public/bypass policy, pending request cancellation/duplicate races, published-edit review and second-person enforcement. Frontend confirmation does not replace atomic server decisions or audit capture.
+- Verify Private assigned-class access, School audience and member-removal behavior, actual retained enrollment/lesson/progress after restriction, teacher reason notifications and entitlement coexistence on approved isolated live accounts. The fixture's modeled policy is not independent proof of deployed behavior.
+- Require actual visibility data on the new public backend responses and verify unauthorized direct APIs, raw search, public outlines and lesson/enrollment endpoints. Keep server authorization authoritative for authenticated non-public outlines. Safety/review release prerequisites still apply before enabling a real new Public rollout.

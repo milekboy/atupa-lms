@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts tests/media.test.ts tests/authoring.test.ts tests/assessments.test.ts tests/learning.test.ts tests/telemetry.test.ts tests/discovery.test.ts tests/certificates.test.ts tests/schools.test.ts tests/assignments.test.ts tests/parents.test.ts tests/admin.test.ts tests/insights.test.ts tests/search.test.ts tests/launch.test.ts tests/media-learning.test.ts",
+    "test:contracts": "tsx --test tests/contracts.test.ts tests/account-contracts.test.ts tests/navigation.test.ts tests/catalog.test.ts tests/cookie-session.test.ts tests/media.test.ts tests/authoring.test.ts tests/assessments.test.ts tests/learning.test.ts tests/telemetry.test.ts tests/discovery.test.ts tests/certificates.test.ts tests/schools.test.ts tests/assignments.test.ts tests/parents.test.ts tests/admin.test.ts tests/insights.test.ts tests/search.test.ts tests/launch.test.ts tests/media-learning.test.ts tests/admin-console.test.ts tests/admin-users.test.ts tests/admin-onboarding.test.ts tests/admin-studio.test.ts tests/admin-reviews.test.ts tests/admin-visibility.test.ts tests/admin-finance.test.ts tests/admin-reporting.test.ts tests/admin-trust.test.ts tests/admin-release.test.ts",
     "test:session-http": "node --test tests/session-http.mjs",
     "simulate:auth": "postman simulation run postman/simulations/auth.sim.yaml --port 4900 --no-history --output ndjson",
     "dev:auth-test": "node scripts/start-auth-test.mjs",
@@ -34,7 +34,10 @@
     "simulate:schools": "postman simulation run postman/simulations/schools.sim.yaml --port 4900 --no-history --output ndjson",
     "test:certificates-http": "node --test tests/certificates-http.mjs",
     "test:integration": "node scripts/release-integration.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:admin-release": "node scripts/test-admin-release.mjs",
+    "test:admin-browser": "node scripts/test-admin-browser.mjs",
+    "test:admin-foundation": "node scripts/test-admin-foundation.mjs"
   },
   "dependencies": {
     "motion": "^14.3.0",

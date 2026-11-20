@@ -1,0 +1,4 @@
+"use client";
+import {sessionFetch} from '../auth/session-fetch';
+import {ApiError,normalizeError,object} from '../api/contracts';
+export async function safetyApi<T>(path:string,init:RequestInit={}):Promise<T>{if(!/^\/[\w/-]+(?:\?.*)?$/.test(path)||path.includes('..'))throw new ApiError(400,'Invalid report request.');const headers=new Headers(init.headers);if(init.body&&!(init.body instanceof FormData))headers.set('Content-Type','application/json');let response:Response;try{response=await sessionFetch('/api/safety'+path,{...init,headers,signal:init.signal??AbortSignal.timeout(30000)});}catch{throw new ApiError(502,'Unable to confirm the result. Check My reports before repeating a submission.');}const v=await response.json().catch(()=>null);if(!response.ok)throw normalizeError(v,response.status);if(object(v).success!==true)throw new ApiError(502,'The report result could not be verified.');return object(v).data as T;}

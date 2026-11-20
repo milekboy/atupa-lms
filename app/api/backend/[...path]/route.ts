@@ -1,3 +1,4 @@
+import {foundationAllowed,isPermissionsPath,parseAdminAccess} from "@/lib/admin-console/contracts";
 import {subscriptionAllowed} from "@/lib/launch/contracts";
 import {query as searchQuery} from "@/lib/search/contracts";
 import {searchBoundary} from "@/lib/search/server";
@@ -20,9 +21,10 @@ async function handle(request:NextRequest,context:Context) {
   try {
     const {path}=await context.params;
     if(!path.length || !namespaces.has(path[0]) || path.some(segment=>!/^[A-Za-z0-9_-]+$/.test(segment)) || path.includes("webhooks")) throw new ApiError(400,"This API path is not supported.");
+    if(path[0]==="authoring"&&path[1]==="courses"&&path.length===4&&path[3]==="visibility")throw new ApiError(403,"Use the authorized course audience controls.");
     const mutation=!["GET","HEAD"].includes(request.method); if(mutation) checkOrigin(request);
     const id=request.cookies.get(sessionCookie)?.value; if(!id) throw new ApiError(401,"Please log in again.");
-    {const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(!subscriptionAllowed(path,request.method,session.user.role))throw new ApiError(403,"Payments are disabled during the free launch.");if(!insightsAllowed(path,request.method,session.user))throw new ApiError(403,"This report or notification action is not available to your account.");if(!managementAllowed(path,request.method,session.user.role))throw new ApiError(403,"This management action is not available to your account.");}
+    {const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(!foundationAllowed(path,request.method,session.user.role))throw new ApiError(403,"This console action is not available to your account.");if(!subscriptionAllowed(path,request.method,session.user.role))throw new ApiError(403,"Payments are disabled during the free launch.");if(!insightsAllowed(path,request.method,session.user))throw new ApiError(403,"This report or notification action is not available to your account.");if(!isPermissionsPath(path)&&!managementAllowed(path,request.method,session.user.role))throw new ApiError(403,"This management action is not available to your account.");}
     if(path[0]==="search"){const session=await readSession(id);if(!session||session.user.role!=="learner"||request.method!=="GET"||path.length!==1)throw new ApiError(403,"Library search requires a learner account.");searchQuery(request.nextUrl.searchParams);}
     if(path[0]==="learning"||path[0]==="gamecard"||path[0]==="progress"||path[0]==="dashboards"&&path[1]==="learner"){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");if(session.user.role!=="learner")throw new ApiError(403,"This learning action requires a learner account.");}
     if(path[0]==="certificates"){
@@ -62,6 +64,7 @@ async function handle(request:NextRequest,context:Context) {
     // Buffer once so an authentication rejection can be retried with identical multipart boundaries.
     const body=mutation?await request.arrayBuffer():undefined;
     if(body && body.byteLength>26*1024*1024) throw new ApiError(413,"This upload is too large.");
+    if(body&&path[0]==="media"&&path[1]==="upload"&&path.length===2){let purpose:unknown;try{purpose=type.includes("multipart/form-data")?(await new Request("http://localhost",{method:"POST",headers:{"Content-Type":type},body}).formData()).get("purpose"):type.includes("application/json")?JSON.parse(new TextDecoder().decode(body)).purpose:undefined;}catch{throw new ApiError(400,"Invalid media upload.");}if(purpose==="report")throw new ApiError(403,"Use the private report screenshot workflow.");}
     const upstream=path[0]==="search"?await publicUpstream("/search"+request.nextUrl.search):await authenticated(id,"/"+path.join("/")+request.nextUrl.search,{method:request.method,headers,body});
     if(upstream.status>=300 && upstream.status<400) throw new ApiError(502,"The API returned an unexpected redirect.");
     if(!upstream.ok) throw normalizeError(await responseJson(upstream),upstream.status);
@@ -69,6 +72,7 @@ async function handle(request:NextRequest,context:Context) {
     const contentType=upstream.headers.get("content-type")??"";
     if(contentType.includes("application/json")){
       let value=learnerBoundary(path,request.method,await responseJson(upstream));
+      if(isPermissionsPath(path)){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");const envelope=value as {data:unknown};value={success:true,data:parseAdminAccess(envelope.data,session.user.role)};}
       if(path[0]==="assignments"){const session=await readSession(id);if(!session)throw new ApiError(401,"Please log in again.");value=assignmentBoundary(path,request.method,value,session.user);}
       if(familyUser)value=parentBoundary(path,request.method,value,linkedIds);
       if(path[0]==="search")value=await searchBoundary(value,searchQuery(request.nextUrl.searchParams).q);

@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Button, IconButton } from "./controls";
 
-export function Modal({ open, onClose, title, description, children, footer, busy = false }: { open: boolean; onClose: () => void; title: string; description?: string; children?: ReactNode; footer?: ReactNode; busy?: boolean }) {
+export function Modal({ open, onClose, title, description, children, footer, busy = false, className = "" }: { open: boolean; onClose: () => void; title: string; description?: string; children?: ReactNode; footer?: ReactNode; busy?: boolean; className?: string }) {
   const ref = useRef<HTMLDialogElement>(null); const titleId = useId(); const descriptionId = useId(); const reduce = useReducedMotion();
   useEffect(() => {
     const dialog = ref.current; if (!dialog || !open) return;
@@ -13,7 +13,7 @@ export function Modal({ open, onClose, title, description, children, footer, bus
     dialog.showModal(); document.body.style.overflow = "hidden";
     return () => { dialog.close(); document.body.style.overflow = overflow; if (previous?.isConnected) previous.focus(); };
   }, [open]);
-  return <dialog ref={ref} className="modal" style={{position:"fixed",inset:"50% auto auto 50%",transform:"translate(-50%, -50%)",margin:0}} aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} aria-busy={busy || undefined} onKeyDown={e => {
+  return <dialog ref={ref} className={`modal ${className}`} style={{position:"fixed",inset:"50% auto auto 50%",transform:"translate(-50%, -50%)",margin:0}} aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} aria-busy={busy || undefined} onKeyDown={e => {
     if (e.key !== "Tab") return;
     const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled):not([type="hidden"]):not([tabindex="-1"]), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]')).filter(item => item.getClientRects().length > 0);
     const first = items[0]; const last = items[items.length - 1];

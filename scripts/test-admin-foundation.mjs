@@ -1,0 +1,20 @@
+// Existing Postman mock sources run directly in Node. Synthetic localhost data only.
+import {spawn} from 'node:child_process';
+import {mkdtempSync,readFileSync,writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';import {join,resolve} from 'node:path';
+import {available,launch,ready,stop,tapTotals} from './admin-qa-lib.mjs';
+const cases=[['admin',['admin-foundation-http','admin-users-http','admin-onboarding-http','admin-release-http','admin-http','dashboard-http']],['atupa',['session-http','account-http']],['public-session',['public-session-http']],['catalog',['catalog-failures']],['authoring',['authoring-http','assessments-http','admin-studio-http','admin-reviews-http']],['finance',['admin-finance-http']],['reporting',['admin-reporting-http']],['trust',['admin-trust-http']],['visibility',['admin-visibility-http']],['learning',['learning-http']],['progress',['progress-http']],['media-learning',['media-learning-http']],['discovery',['discovery-http']],['certificates',['certificates-http']],['schools',['schools-http']],['assignments',['assignments-http']],['parents',['parents-http']],['insights',['insights-http']],['search',['search-http']],['free-launch',['free-launch-http']]];
+const selected=process.argv.includes('--trust')?cases.filter(([name])=>name==='trust'):process.argv.includes('--reporting')?cases.filter(([name])=>name==='reporting'):process.argv.includes('--finance')?cases.filter(([name])=>name==='finance'):process.argv.includes('--visibility')?cases.filter(([name])=>name==='visibility'):process.argv.includes('--regression')?cases:cases.slice(0,1);
+const logdir=mkdtempSync(join(tmpdir(),'atupa-foundation-'));console.log('Synthetic test logs:',logdir);
+const reportIndex=process.argv.indexOf('--report'),reportPath=reportIndex>=0?resolve(process.argv[reportIndex+1]||'summary.json'):join(logdir,'summary.json');const report={environment:'local-synthetic',startedAt:new Date().toISOString(),privateAttachments:process.argv.includes('--private-attachments'),buildId:readFileSync('.next/BUILD_ID','utf8').trim(),expectedGroups:selected.length,groups:[],passed:false};
+let frontend,backend;
+try{await available(3100);await available(4900);
+ frontend=launch(['node_modules/next/dist/bin/next','start','-p','3100'],join(logdir,'frontend.log'),{API_BASE_URL:'http://127.0.0.1:4900/api/v1',SAFETY_REPORT_PRIVATE_ATTACHMENTS:report.privateAttachments?'true':'false',API_TIMEOUT_MS:'1000',SESSION_SECRET:'local-contract-test-secret-not-for-production-12345',APP_ORIGIN:'http://localhost:3100'});await ready('http://localhost:3100/login',frontend);
+ for(const [mock,files]of selected){try{
+  backend=launch(['postman/mocks/'+mock+'.js'],join(logdir,mock+'.log'),{PORT:'4900'});await ready('http://127.0.0.1:4900/api/v1/health',backend);console.log('Local mock:',mock);
+  const tests=spawn(process.execPath,['--test','--test-reporter=tap',...files.map(file=>'tests/'+file+'.mjs')],{stdio:['ignore','pipe','pipe'],env:{...process.env,TEST_REPORT_ATTACHMENTS:report.privateAttachments?'true':'false'}});let output='';for(const stream of [tests.stdout,tests.stderr])stream.on('data',chunk=>{output+=chunk;process.stdout.write(chunk);});
+  const code=await new Promise((resolve,reject)=>{tests.once('error',reject);tests.once('exit',code=>resolve(code??1));});writeFileSync(join(logdir,mock+'.tap'),output);const totals=tapTotals(output),passed=code===0&&totals.tests>0&&totals.failed===0&&totals.cancelled===0&&totals.skipped===0;report.groups.push({mock,files,...totals,exitCode:code,passed});if(!passed)process.exitCode=1;
+ }finally{await stop(backend);backend=null;}}
+ report.passed=report.groups.length===report.expectedGroups&&report.groups.every(group=>group.passed);
+}catch(error){report.error=error instanceof Error?error.message:'Test infrastructure failure';process.exitCode=1;throw error;
+}finally{await stop(backend);await stop(frontend);report.finishedAt=new Date().toISOString();writeFileSync(reportPath,JSON.stringify(report,null,2)+'\n');console.log('Synthetic evidence:',reportPath);}
